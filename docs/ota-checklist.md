@@ -152,3 +152,4 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - Web 회귀: 320×568 라이트 빈 상태·검색·작성·저장·카드·설정, 320×568 다크 카드, 320×700 다크 백업 내보내기·가져오기 확인. v2 JSON 다운로드와 복원 성공, 콘솔 오류 0건
 - 검증: `npm run ota:check` 통과(Expo Doctor 19/19), production iOS·Android·Web export 통과, native baseline guard 통과
 - 참고: 일반 Expo Doctor는 2026-07-30 공개 SDK 57 패치 권장 버전 12건을 보고했다. 현재 스토어 바이너리의 검증 기준선과 달라지는 네이티브 의존성이므로 이번 OTA에서는 올리지 않고 다음 바이너리 릴리스에서 별도 검증한다.
+- production OTA: `1667345d-971b-42d8-9427-23143e85fcba` — iOS·Android, runtime `1.0.0`, commit `11ca8ce`
