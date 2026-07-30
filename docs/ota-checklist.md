@@ -140,4 +140,5 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - Web 회귀: 368×800 홈·전체·설정과 320×568 설정 확인, 콘솔 오류 0건
 - 검증: `npm run ota:check` 통과 — TypeScript, ESLint, OTA용 Expo Doctor 19/19, Expo config, native baseline guard
 - OTA guard: SDK `57.0.8`, RN `0.86.0`, package/lockfile, runtime `1.0.0`과 모든 native-sensitive 설정이 검증된 스토어 기준선 `1.0.0 (26072302)`과 동일
-- 다음 단계: 변경 범위를 커밋한 뒤 production OTA 게시, 설치된 iOS·Android 스토어 바이너리에서 safe-area·탭 전환·백업·알림 회귀 QA
+- production OTA: `c125a02f-1a16-4c31-bb63-ed99056b2ec9` — iOS·Android, runtime `1.0.0`, commit `50d0b7c`
+- 다음 단계: 설치된 iOS·Android 스토어 바이너리에서 safe-area·탭 전환·백업·알림 회귀 QA
