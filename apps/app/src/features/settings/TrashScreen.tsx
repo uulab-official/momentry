@@ -58,20 +58,19 @@ export function TrashScreen() {
 
   return <View style={[styles.root, { backgroundColor: colors.background }]}>
     <AppBar title="최근 삭제" back />
-    <View style={[styles.notice, { backgroundColor: colors.primarySoft }]}><Ionicons name="shield-checkmark-outline" size={19} color={colors.primary} /><Text style={[styles.noticeText, { color: colors.text }]}>삭제한 기록은 30일 동안 보관한 뒤 자동으로 정리돼요.</Text></View>
+    <View style={[styles.notice, { borderColor: colors.border }]}><Text style={[styles.noticeLabel, { color: colors.primary }]}>30일 보관</Text><Text style={[styles.noticeText, { color: colors.textMuted }]}>삭제한 기록은 이 기간 안에 복원할 수 있어요.</Text></View>
     {loading && entries.length === 0 ? <TrashListSkeleton /> : error && entries.length === 0 ? <View style={styles.center}><Text style={{ color: colors.textMuted }}>{error}</Text><AnimatedPressable accessibilityRole="button" onPress={() => void load()} style={[styles.retry, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={styles.retryText}>다시 시도</Text></AnimatedPressable></View> : <FlatList
       data={entries}
       keyExtractor={(item) => String(item.id)}
       contentContainerStyle={[styles.list, entries.length === 0 && styles.emptyList]}
-      ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       refreshing={loading}
       onRefresh={() => void load()}
-      renderItem={({ item }) => <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+      renderItem={({ item }) => <View style={[styles.card, { borderColor: colors.border }]}>
         {item.imageUri ? <Image source={{ uri: item.imageUri }} style={styles.thumb} resizeMode="cover" /> : <View style={[styles.thumb, styles.thumbPlaceholder, { backgroundColor: colors.primarySoft }]}><Ionicons name={item.kind === 'diary' ? 'sparkles' : item.kind === 'movie' ? 'film' : 'book'} size={24} color={colors.primary} /></View>}
         <View style={styles.cardBody}><Text style={[styles.kind, { color: colors.tint }]}>{ENTRY_LABEL[item.kind]} · {formatDeletedAt(item.deletedAt)}</Text><Text numberOfLines={2} style={[styles.title, { color: colors.text }]}>{item.title}</Text><Text style={[styles.date, { color: colors.textMuted }]}>{item.entryDate}</Text></View>
-        <AnimatedPressable accessibilityRole="button" accessibilityLabel={`${item.title} 복원`} accessibilityState={{ busy: restoringId === item.id }} disabled={restoringId !== null} onPress={() => void restore(item.id)} style={[styles.restore, { backgroundColor: colors.primarySoft, opacity: restoringId !== null ? 0.55 : 1 }]} pressedOpacity={0.7} scaleTo={0.95}>{restoringId === item.id ? <ActivityIndicator size="small" color={colors.primary} /> : <Ionicons name="arrow-undo-outline" size={19} color={colors.primary} />}<Text style={[styles.restoreText, { color: colors.primary }]}>복원</Text></AnimatedPressable>
+        <AnimatedPressable accessibilityRole="button" accessibilityLabel={`${item.title} 복원`} accessibilityState={{ busy: restoringId === item.id }} disabled={restoringId !== null} onPress={() => void restore(item.id)} style={[styles.restore, { borderColor: colors.primary, opacity: restoringId !== null ? 0.55 : 1 }]} pressedOpacity={0.7} scaleTo={0.95}>{restoringId === item.id ? <ActivityIndicator size="small" color={colors.primary} /> : <Ionicons name="arrow-undo-outline" size={18} color={colors.primary} />}<Text style={[styles.restoreText, { color: colors.primary }]}>복원</Text></AnimatedPressable>
       </View>}
-      ListEmptyComponent={<View style={[styles.empty, { backgroundColor: colors.surfaceMuted }]}><View style={[styles.emptyIcon, { backgroundColor: colors.primarySoft }]}><Ionicons name="trash-outline" size={32} color={colors.primary} /></View><Text style={[styles.emptyTitle, { color: colors.text }]}>최근 삭제된 기록이 없어요</Text><Text style={[styles.emptyBody, { color: colors.textMuted }]}>삭제한 기록은 30일 동안 이곳에서 복원할 수 있어요.</Text></View>}
+      ListEmptyComponent={<View style={styles.empty}><Text style={[styles.emptyEyebrow, { color: colors.primary }]}>최근 삭제</Text><Text style={[styles.emptyTitle, { color: colors.text }]}>복원할 기록이 없어요</Text><Text style={[styles.emptyBody, { color: colors.textMuted }]}>삭제한 기록이 생기면 30일 동안 이곳에 표시됩니다.</Text></View>}
     />}
     {error && entries.length > 0 ? <Text accessibilityLiveRegion="polite" style={[styles.error, { color: colors.tint }]}>{error}</Text> : null}
   </View>;
@@ -85,7 +84,7 @@ function TrashListSkeleton() {
   return (
     <View accessibilityLabel="최근 삭제 기록을 불러오는 중" style={styles.skeletonList}>
       {[0, 1, 2, 3].map((row) => (
-        <View key={row} style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+        <View key={row} style={[styles.card, { borderColor: colors.border }]}>
           <ShimmerBlock {...blockProps} style={styles.thumb} />
           <View style={styles.skeletonBody}>
             <ShimmerBlock {...blockProps} style={styles.skeletonMeta} />
@@ -100,11 +99,11 @@ function TrashListSkeleton() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1 }, notice: { marginHorizontal: 16, marginTop: 14, borderRadius: 14, padding: 13, flexDirection: 'row', alignItems: 'center', gap: 9 }, noticeText: { ...typography.caption, flex: 1 }, list: { padding: 16, paddingBottom: 42 }, emptyList: { flexGrow: 1 }, card: { borderWidth: 1, borderRadius: 18, padding: 11, flexDirection: 'row', alignItems: 'center', gap: 11 }, thumb: { width: 58, height: 70, borderRadius: 11 }, thumbPlaceholder: { alignItems: 'center', justifyContent: 'center' }, cardBody: { flex: 1, minWidth: 0, gap: 3 }, kind: typography.overline, title: typography.itemTitle, date: typography.caption, restore: { minWidth: 56, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', gap: 2 }, restoreText: typography.caption, center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 }, retry: { minHeight: 44, paddingHorizontal: 20, borderRadius: 14, alignItems: 'center', justifyContent: 'center' }, retryText: { ...typography.button, color: '#fff' }, empty: { alignItems: 'center', borderRadius: 18, paddingHorizontal: 24, paddingVertical: 42, gap: 8 }, emptyIcon: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: 6 }, emptyTitle: typography.sectionTitle, emptyBody: { ...typography.caption, textAlign: 'center' }, error: { ...typography.caption, marginHorizontal: 18, marginBottom: 16 },
-  skeletonList: { padding: 16, gap: 10 },
+  root: { flex: 1 }, notice: { marginHorizontal: 18, paddingVertical: 16, borderBottomWidth: StyleSheet.hairlineWidth, gap: 4 }, noticeLabel: typography.overline, noticeText: typography.caption, list: { paddingHorizontal: 18, paddingBottom: 42 }, emptyList: { flexGrow: 1 }, card: { minHeight: 94, borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 11 }, thumb: { width: 54, height: 68, borderRadius: 6 }, thumbPlaceholder: { alignItems: 'center', justifyContent: 'center' }, cardBody: { flex: 1, minWidth: 0, gap: 3 }, kind: typography.overline, title: typography.itemTitle, date: typography.caption, restore: { minWidth: 58, height: 44, borderWidth: 1, borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }, restoreText: typography.caption, center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 }, retry: { minHeight: 44, paddingHorizontal: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }, retryText: { ...typography.button, color: '#fff' }, empty: { flex: 1, alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 2, paddingBottom: 90, gap: 7 }, emptyEyebrow: typography.overline, emptyTitle: typography.sectionTitle, emptyBody: { ...typography.body, maxWidth: 300 }, error: { ...typography.caption, marginHorizontal: 18, marginBottom: 16 },
+  skeletonList: { paddingHorizontal: 18 },
   skeletonBody: { flex: 1, gap: 7 },
   skeletonMeta: { width: '78%', height: 11, borderRadius: 6 },
   skeletonTitle: { width: '68%', height: 16, borderRadius: 7 },
   skeletonDate: { width: '48%', height: 11, borderRadius: 6 },
-  skeletonRestore: { width: 56, height: 40, borderRadius: 12 },
+  skeletonRestore: { width: 58, height: 44, borderRadius: 10 },
 });
