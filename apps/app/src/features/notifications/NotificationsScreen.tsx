@@ -162,10 +162,10 @@ export function NotificationsScreen() {
         keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+        <View style={[styles.section, { borderColor: colors.border }]}>
           <Text style={[styles.title, { color: colors.text }]}>기록을 잊지 않도록</Text>
           <Text style={[styles.body, { color: colors.textMuted }]}>알림 권한을 켜면 기기 리마인더와 모멘트리 알림을 받을 준비가 됩니다. 알림은 언제든 기기 설정에서 끌 수 있어요.</Text>
-          <View style={[styles.status, { backgroundColor: colors.primarySoft }]}>
+          <View style={[styles.status, { borderColor: colors.border }]}>
             <Text style={[styles.statusText, { color: colors.text }]}>{allowed ? '알림 권한 허용됨' : '알림 권한 꺼짐'}</Text>
           </View>
           <AnimatedPressable accessibilityRole="button" accessibilityState={{ busy, disabled: busy }} disabled={busy} onPress={allowed ? scheduleTest : requestPermission} style={[styles.button, { backgroundColor: colors.primary, opacity: busy ? 0.55 : 1 }]} pressedOpacity={0.84} scaleTo={0.985}>
@@ -173,7 +173,7 @@ export function NotificationsScreen() {
           </AnimatedPressable>
           {!allowed ? <AnimatedPressable accessibilityRole="button" onPress={() => Linking.openSettings().catch(() => undefined)} style={styles.settingsButton} pressedOpacity={0.68} scaleTo={0.98}><Text style={[styles.settingsText, { color: colors.primary }]}>기기 설정 열기</Text></AnimatedPressable> : null}
         </View>
-        <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+        <View style={[styles.section, { borderColor: colors.border }]}>
           <View style={styles.reminderHeader}><View style={styles.reminderTitleWrap}><Text style={[styles.title, { color: colors.text }]}>매일 기록 알림</Text><Text style={[styles.body, { color: colors.textMuted }]}>원하는 시간에 기기에만 알림을 예약해요.</Text></View><Switch accessibilityLabel="매일 기록 알림" accessibilityState={{ checked: reminderEnabled, disabled: busy }} value={reminderEnabled} onValueChange={toggleReminder} disabled={busy} trackColor={{ false: colors.border, true: colors.primarySoft }} thumbColor={reminderEnabled ? colors.primary : colors.textMuted} /></View>
           <View style={styles.timeRow}><Text style={[styles.timeLabel, { color: colors.textMuted }]}>알림 시간</Text><View style={[styles.timeInput, { backgroundColor: colors.background, borderColor: colors.border }]}><TextInput accessibilityLabel="알림 시" keyboardType="number-pad" maxLength={2} value={hourText} onChangeText={setHourText} style={[styles.timeText, { color: colors.text }]} /><Text style={[styles.colon, { color: colors.textMuted }]}>:</Text><TextInput accessibilityLabel="알림 분" keyboardType="number-pad" maxLength={2} value={minuteText} onChangeText={setMinuteText} style={[styles.timeText, { color: colors.text }]} /></View><AnimatedPressable accessibilityRole="button" accessibilityState={{ disabled: busy || !allowed }} disabled={busy || !allowed} onPress={saveReminder} style={[styles.saveButton, { backgroundColor: colors.primary, opacity: busy || !allowed ? 0.45 : 1 }]} pressedOpacity={0.84} scaleTo={0.97}><Text style={styles.saveText}>저장</Text></AnimatedPressable></View>
         </View>
@@ -185,24 +185,24 @@ export function NotificationsScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  content: { paddingBottom: 32 },
-  card: { marginHorizontal: 16, marginTop: 16, borderWidth: 1, borderRadius: 22, padding: 20 },
-  title: { ...typography.screenTitle, marginBottom: 10 },
+  content: { paddingHorizontal: 18, paddingBottom: 32 },
+  section: { borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: 24 },
+  title: { ...typography.sectionTitle, marginBottom: 8 },
   body: typography.body,
-  status: { marginTop: 18, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12 },
+  status: { marginTop: 18, borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: 12 },
   statusText: typography.caption,
-  button: { minHeight: 50, borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 18 },
+  button: { minHeight: 46, borderRadius: 10, paddingHorizontal: 16, alignSelf: 'flex-start', alignItems: 'center', justifyContent: 'center', marginTop: 18 },
   buttonText: { ...typography.button, color: '#FFFFFF' },
-  settingsButton: { alignItems: 'center', paddingVertical: 16 },
+  settingsButton: { alignSelf: 'flex-start', paddingVertical: 14, paddingRight: 12 },
   settingsText: typography.label,
   reminderHeader: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   reminderTitleWrap: { flex: 1, gap: 4 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 18 },
   timeLabel: { ...typography.label, flex: 1 },
-  timeInput: { height: 44, borderWidth: 1, borderRadius: 12, paddingHorizontal: 7, flexDirection: 'row', alignItems: 'center' },
+  timeInput: { height: 44, borderBottomWidth: 1.5, paddingHorizontal: 4, flexDirection: 'row', alignItems: 'center' },
   timeText: { ...pretendard(400), width: 30, textAlign: 'center', fontSize: 17, fontVariant: ['tabular-nums'] },
   colon: { ...pretendard(600), fontSize: 17 },
-  saveButton: { height: 44, borderRadius: 12, paddingHorizontal: 15, alignItems: 'center', justifyContent: 'center' },
+  saveButton: { height: 44, borderRadius: 10, paddingHorizontal: 15, alignItems: 'center', justifyContent: 'center' },
   saveText: { ...typography.label, color: '#FFFFFF' },
-  message: { ...pretendard(400), marginHorizontal: 20, marginTop: 16, fontSize: 13, lineHeight: 19, textAlign: 'center' },
+  message: { ...pretendard(400), marginTop: 16, fontSize: 13, lineHeight: 19 },
 });
