@@ -12,6 +12,7 @@ import { ShimmerBlock, useShimmerAnimation } from '@/src/components/Skeleton';
 import { SettingsRow } from '@/src/components/SettingsRow';
 import { useEntries } from '@/src/providers/EntriesProvider';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 import { ENTRY_KINDS, ENTRY_LABEL } from '@/src/types/entry';
 
 export function MoreScreen() {
@@ -90,26 +91,26 @@ const styles = StyleSheet.create({
   searchCard: { borderWidth: 1, borderRadius: 18, overflow: 'hidden', marginBottom: 8 },
   statsCard: { borderWidth: 1, borderRadius: 20, padding: 16, marginBottom: 8 },
   statsHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 },
-  statsTitle: { fontSize: 16, fontWeight: '900' },
-  statsTotal: { fontSize: 14, fontWeight: '900' },
+  statsTitle: typography.sectionTitle,
+  statsTotal: typography.label,
   statsRow: { flexDirection: 'row', marginBottom: 14 },
   stat: { flex: 1, alignItems: 'center', gap: 3 },
-  statValue: { fontSize: 21, fontWeight: '900', fontVariant: ['tabular-nums'] },
-  statLabel: { fontSize: 12, fontWeight: '700' },
+  statValue: { ...typography.screenTitle, fontVariant: ['tabular-nums'] },
+  statLabel: typography.caption,
   recent: { borderRadius: 14, minHeight: 62, paddingHorizontal: 13, paddingVertical: 10, flexDirection: 'row', alignItems: 'center' },
   recentText: { flex: 1, minWidth: 0, gap: 2 },
-  recentEyebrow: { fontSize: 11, fontWeight: '900' },
-  recentTitle: { fontSize: 15, fontWeight: '800' },
-  recentMeta: { fontSize: 12 },
+  recentEyebrow: typography.overline,
+  recentTitle: typography.itemTitle,
+  recentMeta: typography.caption,
   recentEmpty: { fontSize: 13, lineHeight: 19, paddingHorizontal: 4 },
   statsSkeletonTitle: { width: 68, height: 16, borderRadius: 8 },
   statsSkeletonCount: { width: 38, height: 14, borderRadius: 7 },
   statsSkeletonRow: { height: 57, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 14 },
   statsSkeletonItem: { width: 44, height: 44, borderRadius: 14 },
   statsSkeletonRecent: { minHeight: 62, borderRadius: 14 },
-  eyebrow: { color: 'rgba(255,255,255,0.78)', fontSize: 11, fontWeight: '900', letterSpacing: 1.7 },
-  profileTitle: { color: '#fff', fontSize: 22, fontWeight: '900', marginTop: 10 },
-  profileBody: { color: 'rgba(255,255,255,0.78)', fontSize: 14, lineHeight: 21, marginTop: 8 },
-  section: { fontSize: 12, fontWeight: '800', marginLeft: 5, marginBottom: 8, marginTop: 12 },
+  eyebrow: { ...typography.overline, color: 'rgba(255,255,255,0.78)', letterSpacing: 1.4 },
+  profileTitle: { ...typography.screenTitle, color: '#fff', marginTop: 10 },
+  profileBody: { ...typography.body, color: 'rgba(255,255,255,0.78)', marginTop: 8 },
+  section: { ...typography.caption, marginLeft: 5, marginBottom: 8, marginTop: 12 },
   group: { borderWidth: 1, borderRadius: 18, overflow: 'hidden' },
 });

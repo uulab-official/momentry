@@ -33,7 +33,7 @@ export default function TabsLayout() {
         tabBarItemStyle: { minHeight: 44, paddingVertical: 0 },
         tabBarLabelPosition: 'below-icon',
         tabBarIconStyle: { marginBottom: 2 },
-        tabBarLabelStyle: { fontSize: 11, lineHeight: 14, fontWeight: '700' },
+        tabBarLabelStyle: { fontSize: 11, lineHeight: 14, fontWeight: '600' },
       }}
     >
       <Tabs.Screen name="index" options={{ title: '일기', tabBarIcon: ({ color, size }) => <Ionicons name="sparkles" color={color} size={size} /> }} />

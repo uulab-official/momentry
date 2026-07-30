@@ -14,6 +14,7 @@ import { ShimmerBlock, useShimmerAnimation } from '@/src/components/Skeleton';
 import { goBackOrHome } from '@/src/navigation/goBackOrHome';
 import { useEntries } from '@/src/providers/EntriesProvider';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 import { EntryDraft, EntryKind, ENTRY_LABEL } from '@/src/types/entry';
 
 function first(value: string | string[] | undefined) { return Array.isArray(value) ? value[0] : value; }
@@ -306,7 +307,7 @@ export function EntryFormScreen() {
           <AnimatedPressable accessibilityRole="button" onPress={() => { setDateDraft(today); setDateError(null); }} pressedOpacity={0.68} scaleTo={0.98}><Text style={[styles.today, { color: colors.primary }]}>오늘로 설정</Text></AnimatedPressable>
           <View style={styles.dialogActions}>
             <AnimatedPressable accessibilityRole="button" onPress={() => { setDateOpen(false); setDateError(null); }} style={[styles.dialogButton, { backgroundColor: colors.surfaceMuted }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={{ color: colors.text, fontWeight: '700' }}>취소</Text></AnimatedPressable>
-            <AnimatedPressable accessibilityRole="button" onPress={saveDate} style={[styles.dialogButton, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={{ color: '#fff', fontWeight: '800' }}>적용</Text></AnimatedPressable>
+            <AnimatedPressable accessibilityRole="button" onPress={saveDate} style={[styles.dialogButton, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={[typography.button, { color: '#fff' }]}>적용</Text></AnimatedPressable>
           </View>
         </KeyboardAvoidingView>
       </AnimatedDialog>
@@ -389,23 +390,23 @@ const styles = StyleSheet.create({
       default: { shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 6, elevation: 3 },
     }),
   },
-  field: { gap: 9 }, fieldHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }, label: { fontSize: 15, fontWeight: '800' }, counter: { fontSize: 12, fontVariant: ['tabular-nums'] }, helper: { fontSize: 12, lineHeight: 18 },
+  field: { gap: 9 }, fieldHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }, label: typography.label, counter: { ...typography.caption, fontVariant: ['tabular-nums'] }, helper: typography.caption,
   input: { borderWidth: 1.5, minHeight: 52, borderRadius: 15, paddingHorizontal: 15, fontSize: 16 },
   dateButton: { borderWidth: 1, height: 52, borderRadius: 15, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', gap: 10 },
   dateText: { flex: 1, fontSize: 16, fontVariant: ['tabular-nums'] },
   textarea: { minHeight: 180, paddingTop: 15, lineHeight: 23 },
   ratingHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   ratingValue: { minHeight: 28, borderRadius: 9, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center' },
-  ratingValueText: { fontSize: 12, fontWeight: '900', fontVariant: ['tabular-nums'] },
+  ratingValueText: { ...typography.caption, fontVariant: ['tabular-nums'] },
   stars: { flexDirection: 'row', gap: 8 },
-  ratingHint: { fontSize: 12, lineHeight: 18 },
+  ratingHint: typography.caption,
   footer: { position: 'absolute', bottom: 0, left: 0, right: 0, borderTopWidth: StyleSheet.hairlineWidth, paddingHorizontal: 16, paddingTop: 12 },
-  save: { height: 54, borderRadius: 17, alignItems: 'center', justifyContent: 'center' }, saveContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }, saveText: { color: '#fff', fontSize: 17, fontWeight: '800' },
+  save: { height: 54, borderRadius: 17, alignItems: 'center', justifyContent: 'center' }, saveContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }, saveText: { ...typography.button, color: '#fff' },
   overlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
-  dateDialog: { width: '100%', maxWidth: 360, padding: 22, borderRadius: 22 }, dateDialogContent: { gap: 10 }, dialogTitle: { fontSize: 20, fontWeight: '900' },
-  dateInput: { borderWidth: 1, borderRadius: 14, height: 52, paddingHorizontal: 14, fontSize: 18, marginTop: 6, fontVariant: ['tabular-nums'] },
-  dateError: { fontSize: 12, lineHeight: 18, fontWeight: '700' },
-  today: { fontSize: 14, fontWeight: '800', alignSelf: 'flex-end' }, dialogActions: { flexDirection: 'row', gap: 10, marginTop: 8 },
+  dateDialog: { width: '100%', maxWidth: 360, padding: 22, borderRadius: 22 }, dateDialogContent: { gap: 10 }, dialogTitle: typography.screenTitle,
+  dateInput: { borderWidth: 1, borderRadius: 14, height: 52, paddingHorizontal: 14, fontSize: 16, marginTop: 6, fontVariant: ['tabular-nums'] },
+  dateError: typography.caption,
+  today: { ...typography.label, alignSelf: 'flex-end' }, dialogActions: { flexDirection: 'row', gap: 10, marginTop: 8 },
   dialogButton: { flex: 1, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   skeletonContent: { padding: 16, gap: 22 },
   skeletonImage: { height: 220, borderRadius: 22 },
@@ -417,10 +418,10 @@ const styles = StyleSheet.create({
   skeletonStar: { width: 31, height: 31, borderRadius: 8 },
   loadError: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 28, paddingBottom: 40 },
   loadErrorIcon: { width: 72, height: 72, borderRadius: 36, alignItems: 'center', justifyContent: 'center', marginBottom: 18 },
-  loadErrorTitle: { fontSize: 20, fontWeight: '900' },
-  loadErrorBody: { marginTop: 8, fontSize: 14, lineHeight: 21, textAlign: 'center' },
+  loadErrorTitle: typography.screenTitle,
+  loadErrorBody: { ...typography.body, marginTop: 8, textAlign: 'center' },
   loadErrorActions: { width: '100%', maxWidth: 340, marginTop: 22, gap: 10 },
   loadErrorButton: { minHeight: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  loadErrorPrimaryText: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
-  loadErrorSecondaryText: { fontSize: 14, fontWeight: '800' },
+  loadErrorPrimaryText: { ...typography.button, color: '#FFFFFF' },
+  loadErrorSecondaryText: typography.button,
 });

@@ -164,3 +164,11 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - Web 회귀: 기존 다크 저장 상태가 있던 320×700 설정, 320×700 영화 작성·별점, 320×700 빈 홈 확인. 콘솔 오류 0건
 - 검증: `npm run ota:check` 통과(Expo Doctor 19/19), production iOS·Android·Web export 통과, native baseline guard 통과
 - production OTA: `b643ec69-7250-45a8-8fdc-59a936431a44` — iOS·Android, runtime `1.0.0`, commit `3fef460`
+
+## 2026-07-30 타이포그래피 경량화
+
+- 변경 분류: `ota` — TypeScript·스타일·문서만 변경
+- 수정: 공통 타이포그래피 스케일 도입, 전 화면 `800/900` 굵기 제거, 앱바·상세·빈 상태·설정 행·버튼 크기와 굵기 완화
+- Web 회귀: 390×844 홈·영화·전체·설정에서 글자 잘림·가로 행·앱바·하단 탭 확인
+- 검증: TypeScript와 `git diff --check` 통과. `npm run ota:check` 및 production export는 게시 직전 재실행
+- production OTA: 게시 후 update group과 commit 기록

@@ -10,6 +10,7 @@ import { EntryCard } from '@/src/components/EntryCard';
 import { EntryListSkeleton } from '@/src/components/EntryListSkeleton';
 import { useEntries } from '@/src/providers/EntriesProvider';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 import { Entry, EntryKind, ENTRY_LABEL } from '@/src/types/entry';
 
 export function EntryListScreen({ kind }: { kind: EntryKind }) {
@@ -154,25 +155,25 @@ const styles = StyleSheet.create({
   searchInput: { flex: 1, height: '100%', fontSize: 15 },
   clearSearch: { width: 40, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' },
   sortButton: { height: 46, borderWidth: 1, borderRadius: 14, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 4 },
-  sortText: { fontSize: 12, fontWeight: '800' },
+  sortText: typography.caption,
   list: { padding: 16, paddingBottom: 120 },
   listHeaderContainer: { paddingBottom: 12 },
   headerContent: { gap: 9 },
   listHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   inlineError: { minHeight: 44, borderRadius: 12, paddingLeft: 12, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  inlineErrorText: { flex: 1, fontSize: 12, lineHeight: 18, fontWeight: '700' },
+  inlineErrorText: { ...typography.caption, flex: 1 },
   inlineRetry: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  count: { fontSize: 14, fontWeight: '800' },
-  orderHint: { fontSize: 12 },
+  count: typography.label,
+  orderHint: typography.caption,
   emptyList: { flexGrow: 1 },
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 80 },
   emptyIcon: { width: 84, height: 84, borderRadius: 42, alignItems: 'center', justifyContent: 'center', marginBottom: 20 },
-  emptyTitle: { fontSize: 19, fontWeight: '800', marginBottom: 8 },
-  emptyBody: { fontSize: 14, lineHeight: 21, textAlign: 'center' },
+  emptyTitle: { ...typography.sectionTitle, marginBottom: 8 },
+  emptyBody: { ...typography.body, textAlign: 'center' },
   emptyAction: { minHeight: 48, marginTop: 22, borderRadius: 16, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
-  emptyActionText: { color: '#fff', fontSize: 14, fontWeight: '900' },
+  emptyActionText: { ...typography.button, color: '#fff' },
   retry: { marginTop: 18, minHeight: 44, paddingHorizontal: 20, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  retryText: { color: '#fff', fontSize: 14, fontWeight: '800' },
+  retryText: { ...typography.button, color: '#fff' },
   fab: {
     position: 'absolute',
     right: 20,

@@ -13,6 +13,7 @@ import { exportBackup, ImportCandidate, importBackup, pickBackup } from '@/src/s
 import { listDeletedEntries } from '@/src/db/database';
 import { useEntries } from '@/src/providers/EntriesProvider';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 
 type BusyAction = 'export' | 'import' | null;
 type Status = { message: string; tone: 'success' | 'error' };
@@ -125,7 +126,7 @@ export function SettingsScreen() {
         <Text style={[styles.dialogBody, { color: colors.textMuted }]}>{pendingImport ? `${pendingImport.entryCount}개 기록과 최근 삭제 ${pendingImport.deletedEntryCount}개가 들어 있어요. 내보낸 시각은 ${formatExportedAt(pendingImport.exportedAt)}입니다. 현재 기기의 기록은 이 백업으로 교체됩니다.` : '현재 기기의 기록과 최근 삭제 목록이 선택한 백업 파일로 교체됩니다. 먼저 현재 기록을 내보내 두는 것을 권장해요.'}</Text>
         <View style={styles.dialogActions}>
           <AnimatedPressable accessibilityRole="button" onPress={() => { setConfirmImport(false); setPendingImport(null); }} style={[styles.dialogButton, { backgroundColor: colors.surfaceMuted }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={{ color: colors.text, fontWeight: '700' }}>취소</Text></AnimatedPressable>
-          <AnimatedPressable accessibilityRole="button" onPress={pendingImport ? commitImport : pickImport} style={[styles.dialogButton, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={{ color: '#fff', fontWeight: '800' }}>{pendingImport ? '가져오기' : '파일 선택'}</Text></AnimatedPressable>
+          <AnimatedPressable accessibilityRole="button" onPress={pendingImport ? commitImport : pickImport} style={[styles.dialogButton, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={[typography.button, { color: '#fff' }]}>{pendingImport ? '가져오기' : '파일 선택'}</Text></AnimatedPressable>
         </View>
       </AnimatedDialog>
     </View>
@@ -148,19 +149,19 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   content: { paddingBottom: 32 },
   group: { marginHorizontal: 16, borderWidth: 1, borderRadius: 18, overflow: 'hidden' },
-  section: { fontSize: 12, fontWeight: '800', marginHorizontal: 21, marginBottom: 8, marginTop: 20 },
+  section: { ...typography.caption, marginHorizontal: 21, marginBottom: 8, marginTop: 20 },
   dataNote: { marginHorizontal: 16, marginTop: 12, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 13, gap: 5 },
   dataNoteHeader: { flexDirection: 'row', alignItems: 'center', gap: 7 },
-  dataNoteTitle: { fontSize: 13, fontWeight: '800' },
-  dataNoteBody: { fontSize: 12, lineHeight: 18 },
-  lastExport: { fontSize: 11, lineHeight: 17, fontWeight: '800', marginTop: 2 },
+  dataNoteTitle: typography.itemTitle,
+  dataNoteBody: typography.caption,
+  lastExport: { ...typography.overline, marginTop: 2 },
   status: { margin: 16, borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, paddingLeft: 13, minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 9 },
-  statusText: { flex: 1, minWidth: 0, fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  statusText: { ...typography.caption, flex: 1, minWidth: 0 },
   statusClose: { width: 44, height: 44, flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
   busy: { marginTop: 10 },
   dialog: { width: '100%', maxWidth: 420, borderRadius: 22, padding: 22 },
-  dialogTitle: { fontSize: 20, fontWeight: '900', marginBottom: 10 },
-  dialogBody: { fontSize: 14, lineHeight: 21 },
+  dialogTitle: { ...typography.screenTitle, marginBottom: 10 },
+  dialogBody: typography.body,
   dialogActions: { flexDirection: 'row', gap: 10, marginTop: 22 },
   dialogButton: { flex: 1, minHeight: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
 });

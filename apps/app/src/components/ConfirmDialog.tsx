@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { AnimatedDialog } from '@/src/components/AnimatedDialog';
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 
 type Props = {
   visible: boolean;
@@ -78,10 +79,10 @@ export function ConfirmDialog({
 
 const styles = StyleSheet.create({
   dialog: { width: '100%', maxWidth: 380, padding: 22, borderRadius: 22 },
-  title: { fontSize: 20, fontWeight: '900' },
-  message: { fontSize: 14, lineHeight: 21, marginTop: 9 },
+  title: typography.screenTitle,
+  message: { ...typography.body, marginTop: 9 },
   actions: { flexDirection: 'row', gap: 10, marginTop: 22 },
   button: { flex: 1, minHeight: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
-  cancelText: { fontSize: 14, fontWeight: '800' },
-  confirmText: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
+  cancelText: typography.button,
+  confirmText: { ...typography.button, color: '#FFFFFF' },
 });

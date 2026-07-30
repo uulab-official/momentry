@@ -6,6 +6,7 @@ import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 import { Entry, ENTRY_LABEL } from '@/src/types/entry';
 
 export const EntryCard = memo(function EntryCard({ entry }: { entry: Entry }) {
@@ -70,11 +71,11 @@ const styles = StyleSheet.create({
   content: { flex: 1, minWidth: 0, gap: 4 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   kindPill: { minHeight: 23, borderRadius: 8, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center' },
-  kind: { fontSize: 11, fontWeight: '900' },
-  date: { fontSize: 12 },
-  title: { fontSize: 17, fontWeight: '800', letterSpacing: -0.25 },
-  workMeta: { fontSize: 12, fontWeight: '600' },
-  body: { fontSize: 13, lineHeight: 18 },
+  kind: typography.overline,
+  date: typography.caption,
+  title: typography.sectionTitle,
+  workMeta: typography.caption,
+  body: { fontSize: 13, lineHeight: 19, fontWeight: '400' },
   rating: { fontSize: 13, letterSpacing: 1 },
   chevron: { flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
 });

@@ -8,6 +8,7 @@ import { initialWindowMetrics, useSafeAreaInsets } from 'react-native-safe-area-
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { goBackOrHome } from '@/src/navigation/goBackOrHome';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 
 type Props = { title: string; back?: boolean; close?: boolean; right?: ReactNode; onBack?: () => void };
 
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   root: { zIndex: 2, flexShrink: 0, borderBottomWidth: StyleSheet.hairlineWidth },
   row: { height: APP_BAR_HEIGHT, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 16, gap: 8 },
   leading: { width: 44, height: 44, flexShrink: 0, borderRadius: 22, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center', marginLeft: -4 },
-  title: { fontSize: 22, fontWeight: '800', flex: 1, minWidth: 0, letterSpacing: -0.5 },
+  title: { ...typography.screenTitle, flex: 1, minWidth: 0 },
   actions: { minWidth: 44, flexShrink: 0, alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', gap: 4 },
   action: { width: 44, height: 44, borderRadius: 22, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center' },
 });

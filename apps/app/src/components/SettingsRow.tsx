@@ -48,6 +48,6 @@ export function SettingsRow({ icon, label, value, onPress }: { icon: keyof typeo
 const styles = StyleSheet.create({
   row: { width: '100%', minHeight: 62, borderBottomWidth: StyleSheet.hairlineWidth, paddingHorizontal: 14, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 12 },
   icon: { width: 34, height: 34, flexShrink: 0, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
-  label: { flex: 1, minWidth: 0, fontSize: 16, fontWeight: '600' },
+  label: { flex: 1, minWidth: 0, fontSize: 15, fontWeight: '500' },
   value: { maxWidth: '42%', flexShrink: 1, fontSize: 14, textAlign: 'right' },
 });

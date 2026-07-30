@@ -8,6 +8,7 @@ import { AppBar } from '@/src/components/AppBar';
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
 import { disableDailyReminder, loadReconciledReminderSettings, scheduleDailyReminder } from '@/src/services/reminder';
+import { typography } from '@/src/theme/tokens';
 
 function hasPermission(status: Notifications.NotificationPermissionsStatus) {
   return status.granted || status.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
@@ -185,22 +186,22 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   content: { paddingBottom: 32 },
   card: { marginHorizontal: 16, marginTop: 16, borderWidth: 1, borderRadius: 22, padding: 20 },
-  title: { fontSize: 21, fontWeight: '900', marginBottom: 10 },
-  body: { fontSize: 14, lineHeight: 21 },
+  title: { ...typography.screenTitle, marginBottom: 10 },
+  body: typography.body,
   status: { marginTop: 18, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12 },
-  statusText: { fontSize: 13, fontWeight: '800' },
+  statusText: typography.caption,
   button: { minHeight: 50, borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 18 },
-  buttonText: { color: '#FFFFFF', fontSize: 15, fontWeight: '900' },
+  buttonText: { ...typography.button, color: '#FFFFFF' },
   settingsButton: { alignItems: 'center', paddingVertical: 16 },
-  settingsText: { fontSize: 14, fontWeight: '800' },
+  settingsText: typography.label,
   reminderHeader: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   reminderTitleWrap: { flex: 1, gap: 4 },
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 18 },
-  timeLabel: { flex: 1, fontSize: 13, fontWeight: '800' },
+  timeLabel: { ...typography.label, flex: 1 },
   timeInput: { height: 44, borderWidth: 1, borderRadius: 12, paddingHorizontal: 7, flexDirection: 'row', alignItems: 'center' },
   timeText: { width: 30, textAlign: 'center', fontSize: 17, fontVariant: ['tabular-nums'] },
-  colon: { fontSize: 17, fontWeight: '800' },
+  colon: { fontSize: 17, fontWeight: '600' },
   saveButton: { height: 44, borderRadius: 12, paddingHorizontal: 15, alignItems: 'center', justifyContent: 'center' },
-  saveText: { color: '#FFFFFF', fontWeight: '900', fontSize: 13 },
+  saveText: { ...typography.label, color: '#FFFFFF' },
   message: { marginHorizontal: 20, marginTop: 16, fontSize: 13, lineHeight: 19, textAlign: 'center' },
 });

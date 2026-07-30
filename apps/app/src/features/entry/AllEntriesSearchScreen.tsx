@@ -9,6 +9,7 @@ import { EntryCard } from '@/src/components/EntryCard';
 import { EntryListSkeleton } from '@/src/components/EntryListSkeleton';
 import { useEntries } from '@/src/providers/EntriesProvider';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 import { Entry, ENTRY_KINDS, ENTRY_LABEL } from '@/src/types/entry';
 
 function compareNewest(left: Entry, right: Entry) {
@@ -92,18 +93,18 @@ const styles = StyleSheet.create({
   searchInput: { flex: 1, height: '100%', fontSize: 15 },
   clearSearch: { width: 40, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' },
   resultMeta: { minHeight: 28, paddingHorizontal: 18, paddingBottom: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  resultCount: { fontSize: 13, fontWeight: '900', fontVariant: ['tabular-nums'] },
-  resultHint: { fontSize: 11 },
+  resultCount: { ...typography.label, fontVariant: ['tabular-nums'] },
+  resultHint: typography.overline,
   list: { padding: 16, paddingBottom: 40 },
   listHeader: { paddingBottom: 12 },
   inlineError: { minHeight: 44, borderRadius: 12, paddingLeft: 12, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  inlineErrorText: { flex: 1, fontSize: 12, lineHeight: 18, fontWeight: '700' },
+  inlineErrorText: { ...typography.caption, flex: 1 },
   inlineRetry: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   emptyList: { flexGrow: 1 },
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24, paddingBottom: 70 },
   emptyIcon: { width: 82, height: 82, borderRadius: 41, alignItems: 'center', justifyContent: 'center', marginBottom: 20 },
-  emptyTitle: { fontSize: 19, fontWeight: '800', marginBottom: 8 },
-  emptyBody: { fontSize: 14, lineHeight: 21, textAlign: 'center' },
+  emptyTitle: { ...typography.sectionTitle, marginBottom: 8 },
+  emptyBody: { ...typography.body, textAlign: 'center' },
   retry: { marginTop: 18, minHeight: 44, paddingHorizontal: 20, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  retryText: { color: '#fff', fontSize: 14, fontWeight: '800' },
+  retryText: { ...typography.button, color: '#fff' },
 });
