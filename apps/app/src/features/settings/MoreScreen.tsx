@@ -107,9 +107,9 @@ const styles = StyleSheet.create({
   statsSkeletonRow: { height: 57, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 14 },
   statsSkeletonItem: { width: 44, height: 44, borderRadius: 14 },
   statsSkeletonRecent: { minHeight: 62, borderRadius: 14 },
-  eyebrow: { color: '#DCECDF', fontSize: 11, fontWeight: '900', letterSpacing: 1.7 },
+  eyebrow: { color: 'rgba(255,255,255,0.78)', fontSize: 11, fontWeight: '900', letterSpacing: 1.7 },
   profileTitle: { color: '#fff', fontSize: 22, fontWeight: '900', marginTop: 10 },
-  profileBody: { color: '#DCECDF', fontSize: 14, lineHeight: 21, marginTop: 8 },
+  profileBody: { color: 'rgba(255,255,255,0.78)', fontSize: 14, lineHeight: 21, marginTop: 8 },
   section: { fontSize: 12, fontWeight: '800', marginLeft: 5, marginBottom: 8, marginTop: 12 },
   group: { borderWidth: 1, borderRadius: 18, overflow: 'hidden' },
 });

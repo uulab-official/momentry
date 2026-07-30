@@ -1,1 +1,5 @@
-export { ThemeSettingsScreen as default } from '@/src/features/settings/ThemeSettingsScreen';
+import { Redirect } from 'expo-router';
+
+export default function RemovedThemeRoute() {
+  return <Redirect href="/settings" />;
+}

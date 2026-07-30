@@ -20,7 +20,7 @@ const LAST_EXPORT_AT_KEY = 'momentry:last-export-at';
 
 export function SettingsScreen() {
   const router = useRouter();
-  const { colors, mode } = useAppTheme();
+  const { colors } = useAppTheme();
   const { refresh } = useEntries();
   const [busy, setBusy] = useState<BusyAction>(null);
   const [status, setStatus] = useState<Status | null>(null);
@@ -28,8 +28,6 @@ export function SettingsScreen() {
   const [pendingImport, setPendingImport] = useState<ImportCandidate | null>(null);
   const [deletedCount, setDeletedCount] = useState(0);
   const [lastExportedAt, setLastExportedAt] = useState<string | null>(null);
-  const modeLabel = mode === 'system' ? '시스템' : mode === 'dark' ? '다크' : '라이트';
-
   useFocusEffect(useCallback(() => {
     let active = true;
     void Promise.all([listDeletedEntries(), AsyncStorage.getItem(LAST_EXPORT_AT_KEY)])
@@ -105,7 +103,6 @@ export function SettingsScreen() {
       <AppBar title="설정" back />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={[styles.group, { borderColor: colors.border }]}>
-          <SettingsRow icon="color-palette-outline" label="테마" value={modeLabel} onPress={() => router.push('/settings/theme')} />
           <SettingsRow icon="notifications-outline" label="알림 설정" onPress={() => router.push('/notifications')} />
           <SettingsRow icon="information-circle-outline" label="앱 정보" onPress={() => router.push('/settings/about')} />
         </View>

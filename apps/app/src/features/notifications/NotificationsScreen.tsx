@@ -19,7 +19,7 @@ async function configureNotificationChannel() {
     name: '모멘트리 알림',
     importance: Notifications.AndroidImportance.DEFAULT,
     vibrationPattern: [0, 180, 120, 180],
-    lightColor: '#244D3F',
+    lightColor: '#24513F',
     lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
     showBadge: true,
   });

@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { AnimatedDialog } from '@/src/components/AnimatedDialog';
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
-import { palette } from '@/src/theme/tokens';
 
 type Props = {
   visible: boolean;
@@ -63,7 +62,7 @@ export function ConfirmDialog({
           style={[
             styles.button,
             {
-              backgroundColor: destructive ? palette.danger : colors.primary,
+              backgroundColor: colors.primary,
               opacity: busy ? 0.65 : 1,
             },
           ]}

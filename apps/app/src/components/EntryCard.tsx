@@ -39,7 +39,7 @@ export const EntryCard = memo(function EntryCard({ entry }: { entry: Entry }) {
           <Text numberOfLines={1} style={[styles.title, { color: colors.text }]}>{entry.title}</Text>
           {workMeta ? <Text numberOfLines={1} style={[styles.workMeta, { color: colors.textMuted }]}>{workMeta}</Text> : null}
           <Text numberOfLines={2} style={[styles.body, { color: colors.textMuted }]}>{entry.content || '아직 기록한 내용이 없어요.'}</Text>
-          {entry.rating > 0 ? <Text style={styles.rating}>{'★'.repeat(entry.rating)}<Text style={{ color: colors.border }}>{'★'.repeat(5 - entry.rating)}</Text></Text> : null}
+          {entry.rating > 0 ? <Text style={[styles.rating, { color: colors.primary }]}>{'★'.repeat(entry.rating)}<Text style={{ color: colors.border }}>{'★'.repeat(5 - entry.rating)}</Text></Text> : null}
         </View>
         <View style={styles.chevron}>
           <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
   title: { fontSize: 17, fontWeight: '800', letterSpacing: -0.25 },
   workMeta: { fontSize: 12, fontWeight: '600' },
   body: { fontSize: 13, lineHeight: 18 },
-  rating: { color: '#ECAA3D', fontSize: 13, letterSpacing: 1 },
+  rating: { fontSize: 13, letterSpacing: 1 },
   chevron: { flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
 });
