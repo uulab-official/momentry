@@ -35,6 +35,9 @@ export function NotificationsScreen() {
   const [reminderEnabled, setReminderEnabled] = useState(false);
   const [hourText, setHourText] = useState('21');
   const [minuteText, setMinuteText] = useState('00');
+  const [savedHourText, setSavedHourText] = useState('21');
+  const [savedMinuteText, setSavedMinuteText] = useState('00');
+  const hasTimeChanges = hourText !== savedHourText || minuteText !== savedMinuteText;
 
   useFocusEffect(useCallback(() => {
     let active = true;
@@ -47,8 +50,12 @@ export function NotificationsScreen() {
         if (active) {
           setAllowed(hasPermission(permission));
           setReminderEnabled(reminder.enabled);
-          setHourText(String(reminder.hour).padStart(2, '0'));
-          setMinuteText(String(reminder.minute).padStart(2, '0'));
+          const hour = String(reminder.hour).padStart(2, '0');
+          const minute = String(reminder.minute).padStart(2, '0');
+          setHourText(hour);
+          setMinuteText(minute);
+          setSavedHourText(hour);
+          setSavedMinuteText(minute);
         }
       } catch {
         if (active) setMessage('알림 권한 상태를 확인하지 못했어요.');
@@ -144,9 +151,13 @@ export function NotificationsScreen() {
     try {
       await scheduleDailyReminder(hour, minute);
       setReminderEnabled(true);
-      setHourText(String(hour).padStart(2, '0'));
-      setMinuteText(String(minute).padStart(2, '0'));
-      setMessage(`매일 ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}에 알려드릴게요.`);
+      const normalizedHour = String(hour).padStart(2, '0');
+      const normalizedMinute = String(minute).padStart(2, '0');
+      setHourText(normalizedHour);
+      setMinuteText(normalizedMinute);
+      setSavedHourText(normalizedHour);
+      setSavedMinuteText(normalizedMinute);
+      setMessage(`매일 ${normalizedHour}:${normalizedMinute}에 알려드릴게요.`);
     } catch {
       setMessage('매일 알림을 예약하지 못했어요. 권한과 시간을 확인해주세요.');
     } finally {
@@ -175,7 +186,18 @@ export function NotificationsScreen() {
         </View>
         <View style={[styles.section, { borderColor: colors.border }]}>
           <View style={styles.reminderHeader}><View style={styles.reminderTitleWrap}><Text style={[styles.title, { color: colors.text }]}>매일 기록 알림</Text><Text style={[styles.body, { color: colors.textMuted }]}>원하는 시간에 기기에만 알림을 예약해요.</Text></View><Switch accessibilityLabel="매일 기록 알림" accessibilityState={{ checked: reminderEnabled, disabled: busy }} value={reminderEnabled} onValueChange={toggleReminder} disabled={busy} trackColor={{ false: colors.border, true: colors.primarySoft }} thumbColor={reminderEnabled ? colors.primary : colors.textMuted} /></View>
-          <View style={styles.timeRow}><Text style={[styles.timeLabel, { color: colors.textMuted }]}>알림 시간</Text><View style={[styles.timeInput, { backgroundColor: colors.background, borderColor: colors.border }]}><TextInput accessibilityLabel="알림 시" keyboardType="number-pad" maxLength={2} value={hourText} onChangeText={setHourText} style={[styles.timeText, { color: colors.text }]} /><Text style={[styles.colon, { color: colors.textMuted }]}>:</Text><TextInput accessibilityLabel="알림 분" keyboardType="number-pad" maxLength={2} value={minuteText} onChangeText={setMinuteText} style={[styles.timeText, { color: colors.text }]} /></View><AnimatedPressable accessibilityRole="button" accessibilityState={{ disabled: busy || !allowed }} disabled={busy || !allowed} onPress={saveReminder} style={[styles.saveButton, { backgroundColor: colors.primary, opacity: busy || !allowed ? 0.45 : 1 }]} pressedOpacity={0.84} scaleTo={0.97}><Text style={styles.saveText}>저장</Text></AnimatedPressable></View>
+          <View style={[styles.timeRow, { borderColor: colors.border }]}>
+            <Text style={[styles.timeLabel, { color: colors.textMuted }]}>알림 시간</Text>
+            <View style={[styles.timeInput, { backgroundColor: colors.background, borderColor: colors.border }]}>
+              <TextInput accessibilityLabel="알림 시" keyboardType="number-pad" maxLength={2} value={hourText} onChangeText={setHourText} style={[styles.timeText, { color: colors.text }]} />
+              <Text style={[styles.colon, { color: colors.textMuted }]}>:</Text>
+              <TextInput accessibilityLabel="알림 분" keyboardType="number-pad" maxLength={2} value={minuteText} onChangeText={setMinuteText} style={[styles.timeText, { color: colors.text }]} />
+            </View>
+          </View>
+          <Text style={[styles.timeHint, { color: colors.textMuted }]}>
+            {allowed ? reminderEnabled ? `현재 매일 ${savedHourText}:${savedMinuteText}에 알려드려요.` : '알림을 켜면 선택한 시간으로 예약해요.' : '먼저 알림 권한을 허용해주세요.'}
+          </Text>
+          {hasTimeChanges ? <AnimatedPressable accessibilityRole="button" accessibilityState={{ disabled: busy || !allowed }} disabled={busy || !allowed} onPress={saveReminder} style={[styles.saveButton, { backgroundColor: colors.primary, opacity: busy || !allowed ? 0.45 : 1 }]} pressedOpacity={0.84} scaleTo={0.985}><Text style={styles.saveText}>알림 시간 저장</Text></AnimatedPressable> : null}
         </View>
         {message ? <Text accessibilityLiveRegion="polite" style={[styles.message, { color: colors.textMuted }]}>{message}</Text> : null}
       </ScrollView>
@@ -197,12 +219,13 @@ const styles = StyleSheet.create({
   settingsText: typography.label,
   reminderHeader: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   reminderTitleWrap: { flex: 1, gap: 4 },
-  timeRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 18 },
+  timeRow: { minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 18, borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth },
   timeLabel: { ...typography.label, flex: 1 },
   timeInput: { height: 44, borderBottomWidth: 1.5, paddingHorizontal: 4, flexDirection: 'row', alignItems: 'center' },
   timeText: { ...pretendard(400), width: 30, textAlign: 'center', fontSize: 17, fontVariant: ['tabular-nums'] },
   colon: { ...pretendard(600), fontSize: 17 },
-  saveButton: { height: 44, borderRadius: 10, paddingHorizontal: 15, alignItems: 'center', justifyContent: 'center' },
+  timeHint: { ...typography.caption, marginTop: 10 },
+  saveButton: { minHeight: 46, borderRadius: 10, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center', marginTop: 14 },
   saveText: { ...typography.label, color: '#FFFFFF' },
   message: { ...pretendard(400), marginTop: 16, fontSize: 13, lineHeight: 19 },
 });
