@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { ShimmerBlock, useShimmerAnimation } from '@/src/components/Skeleton';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
 
-export function EntryListSkeleton({ rows = 4 }: { rows?: number }) {
+export function EntryListSkeleton({ rows = 4, showMedia = true }: { rows?: number; showMedia?: boolean }) {
   const { colors } = useAppTheme();
   const { progress, reduceMotion } = useShimmerAnimation();
   const blockProps = {
@@ -22,9 +22,9 @@ export function EntryListSkeleton({ rows = 4 }: { rows?: number }) {
       {Array.from({ length: rows }, (_, index) => (
         <View
           key={index}
-          style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          style={[styles.card, { borderColor: colors.border }]}
         >
-          <ShimmerBlock {...blockProps} style={styles.image} />
+          {showMedia ? <ShimmerBlock {...blockProps} style={styles.image} /> : null}
           <View style={styles.content}>
             <View style={styles.meta}>
               <ShimmerBlock {...blockProps} style={styles.kind} />
@@ -41,9 +41,10 @@ export function EntryListSkeleton({ rows = 4 }: { rows?: number }) {
 }
 
 const styles = StyleSheet.create({
-  list: { padding: 16, gap: 12 },
+  list: { paddingHorizontal: 18, paddingTop: 10 },
   header: {
     minHeight: 20,
+    marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -51,15 +52,14 @@ const styles = StyleSheet.create({
   headerCount: { width: 74, height: 14, borderRadius: 7 },
   headerHint: { width: 90, height: 12, borderRadius: 6 },
   card: {
-    minHeight: 108,
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 12,
+    minHeight: 100,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingVertical: 14,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 13,
   },
-  image: { width: 72, height: 82, borderRadius: 13 },
+  image: { width: 62, height: 88, borderRadius: 8 },
   content: { flex: 1, gap: 8 },
   meta: { flexDirection: 'row', gap: 8 },
   kind: { width: 34, height: 12, borderRadius: 6 },

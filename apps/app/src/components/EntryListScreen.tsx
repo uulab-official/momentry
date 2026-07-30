@@ -137,7 +137,7 @@ export function EntryListScreen({ kind }: { kind: EntryKind }) {
         </View>
       </Animated.View>
       {loading && entries.length === 0 ? (
-        <EntryListSkeleton />
+        <EntryListSkeleton showMedia={kind !== 'diary'} />
       ) : (
         <FlatList
           ref={listRef}
