@@ -183,3 +183,15 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - 검증: `npm run ota:check` 통과 — TypeScript, ESLint, OTA용 Expo Doctor 19/19, 공개 Expo config, native baseline guard
 - 참고: 일반 Expo Doctor의 SDK 57 패치 권고 12건은 현재 스토어 바이너리 기준선과 분리해 다음 바이너리에서 검증
 - production OTA: `db0f5b3c-09c6-4217-a758-ada505dd35bb` — iOS·Android, runtime `1.0.0`, commit `3836b2f`
+
+## 2026-07-30 핵심 기록 흐름 디자인 고도화
+
+- 변경 분류: `ota` — 작성·발견·통합 검색·알림의 TypeScript 레이아웃과 스타일만 변경
+- 디자인: 큰 둥근 카드와 중앙 장식 아이콘을 제거하고, 편집형 입력선·왼쪽 정렬 안내·얇은 섹션 구분선·10~12px 액션으로 통일
+- 작성: 사진 미선택 영역을 220px 패널에서 64px 행으로 축소하고 제목·본문이 첫 화면을 차지하도록 재구성
+- 발견: 내부 구현명 `TMDB 키` 노출을 사용자 문구로 교체하고, 빈 상태 안내가 `error ?? fallback` 때문에 사라지던 오류 수정
+- 회귀: 390×844와 320×700에서 네 화면의 가로 overflow, 앱바, 하단 고정 액션, 텍스트 줄바꿈 확인
+- 검증: `npm run ota:check` 통과 — TypeScript, ESLint, OTA용 Expo Doctor 19/19, 공개 Expo config, native baseline guard
+- 참고: 일반 Expo Doctor의 SDK 57 패치 권고 12건은 native-sensitive 기준선 변경이므로 다음 바이너리로 유지
+- production OTA: `ce26cf34-54fa-4696-bc59-2cae23f2a286` — iOS `019fb19e-17a9-729a-9546-d723da40058a`, Android `019fb19e-17a9-7e40-a483-5a7af285ac44`, runtime `1.0.0`, commit `4101f22`
+- canary: 연결된 iOS 시뮬레이터에 모멘트리 설치본이 없고 물리 iPhone은 unavailable 상태라 설치 바이너리 적용 확인은 미완료

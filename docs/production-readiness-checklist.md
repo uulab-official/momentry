@@ -105,6 +105,7 @@
 - [x] 최신 OTA `bba4c146-fc75-4bdb-9e6c-b43c36397b16` — 대화상자와 작성 흐름 애니메이션 개선
 - [x] 최신 OTA `c125a02f-1a16-4c31-bb63-ed99056b2ec9` — 앱바와 하단탭 safe-area 및 가로 정렬 안정화
 - [x] 최신 OTA `db0f5b3c-09c6-4217-a758-ada505dd35bb` — 차분한 기록 중심 UI, Pretendard 표준화, 정책 줄바꿈 수정
+- [x] 최신 OTA `ce26cf34-54fa-4696-bc59-2cae23f2a286` — 작성·발견·통합 검색·알림의 편집형 UI 고도화
 - [x] 동일 변경의 중복 게시 그룹 `06b05f34-2e28-47c1-b735-45034f2016f5`와 최신 그룹 모두 rollback 아님
 - [ ] 네이티브 변경 시 새 바이너리·새 build code 발행
 - [ ] 다음 바이너리에서 로컬 알림만 유지한다면 불필요한 iOS `remote-notification` background mode와 plugin background remote option 제거
