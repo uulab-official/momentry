@@ -168,6 +168,7 @@
 
 ### 최근 OTA 기록
 
+- `9882131a-4f6a-4cef-b8cd-7d4dcc6a8bd8` — 최근 삭제·FAQ·공지·앱 정보 화면을 평평하고 탐색 가능한 구조로 개선, 공지 escape 노출 수정 (iOS·Android, runtime `1.0.0`)
 - `ce26cf34-54fa-4696-bc59-2cae23f2a286` — 작성·발견·통합 검색·알림을 평평한 편집형 UI로 고도화하고 발견 안내 누락 수정 (iOS·Android, runtime `1.0.0`)
 - `db0f5b3c-09c6-4217-a758-ada505dd35bb` — 차분한 기록 중심 UI와 Pretendard 표준화, 정책 줄바꿈 수정 (iOS·Android, runtime `1.0.0`)
 - `f62e60e3-978d-4572-bb2f-7007001a74ee` — 글자 크기와 굵기를 낮춰 읽기 편하게 개선 (iOS·Android, runtime `1.0.0`)

@@ -193,6 +193,15 @@
 - Google: **공개 출시 완료**
 - 완전한 100% 출시 판정에 남은 것: **실기기 회귀 QA + 운영자 결정 항목**
 
+### 2026-07-30 최신 디자인 OTA
+
+- [x] 최근 삭제·FAQ·공지·앱 정보 화면의 390×844 및 320×700 회귀 확인
+- [x] 생성→삭제→최근 삭제→복원 실제 데이터 흐름 확인
+- [x] OTA용 Expo Doctor 19/19 및 native baseline guard 통과
+- [x] production 그룹 `9882131a-4f6a-4cef-b8cd-7d4dcc6a8bd8`에 iOS·Android 게시
+- [x] 서버 재조회에서 runtime `1.0.0`, commit `f98c739`, rollback 아님 확인
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary
+
 관련 문서:
 
 - [`product-intent.md`](product-intent.md)

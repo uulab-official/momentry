@@ -195,3 +195,15 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - 참고: 일반 Expo Doctor의 SDK 57 패치 권고 12건은 native-sensitive 기준선 변경이므로 다음 바이너리로 유지
 - production OTA: `ce26cf34-54fa-4696-bc59-2cae23f2a286` — iOS `019fb19e-17a9-729a-9546-d723da40058a`, Android `019fb19e-17a9-7e40-a483-5a7af285ac44`, runtime `1.0.0`, commit `4101f22`
 - canary: 연결된 iOS 시뮬레이터에 모멘트리 설치본이 없고 물리 iPhone은 unavailable 상태라 설치 바이너리 적용 확인은 미완료
+
+## 2026-07-30 설정·지원 화면 디자인 고도화
+
+- 변경 분류: `ota` — `StaticInfoScreen`과 `TrashScreen`의 TypeScript 레이아웃·스타일·로컬 상호작용만 변경
+- 최근 삭제: 장식성 중첩 카드와 아이콘 원을 제거하고 보관 기간, 빈 상태, 복원 행을 평평한 정보 구조로 정리
+- FAQ: 한 항목만 열리는 아코디언, 구분선, 열기·접기 접근성 레이블과 햅틱 적용
+- 공지·앱 정보: 화면에 노출되던 `\n\n` escape를 정상 문단으로 복원하고 릴리스·버전 메타데이터의 위계 보강
+- 회귀: 390×844 및 320×700에서 최근 삭제·FAQ·공지·앱 정보·개인정보·약관 확인, 생성→삭제→최근 삭제→복원 실제 데이터 흐름 통과
+- 검증: TypeScript, ESLint, OTA용 Expo Doctor 19/19, native baseline guard, production iOS·Android·Web export 통과
+- production OTA: `9882131a-4f6a-4cef-b8cd-7d4dcc6a8bd8` — iOS `019fb1c7-d79a-76b4-9c75-ce8b1f8de61f`, Android `019fb1c7-d79a-7dda-b222-f803e3318f88`, runtime `1.0.0`, commit `f98c739`
+- 서버 재조회: iOS·Android 모두 rollback 아님, branch `production`, commit hash 일치
+- canary: 연결된 설치 바이너리가 없어 실제 스토어 바이너리 재실행 적용 확인은 후속 실기기 QA로 유지
