@@ -20,6 +20,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
+import { pretendard } from '@/src/theme/typography';
 
 type Props = {
   visible: boolean;
@@ -369,9 +370,9 @@ const styles = StyleSheet.create({
   image: { width: '100%', height: '82%' },
   loading: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 },
   failure: { alignItems: 'center', gap: 12 },
-  failureText: { color: '#FFFFFF', fontSize: 14, fontWeight: '700' },
+  failureText: { ...pretendard(700), color: '#FFFFFF', fontSize: 14 },
   topBar: { position: 'absolute', top: 0, left: 0, right: 0, paddingHorizontal: 16, alignItems: 'flex-end' },
   close: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
   hintWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, alignItems: 'center' },
-  hint: { color: 'rgba(255,255,255,0.72)', fontSize: 12, fontWeight: '700' },
+  hint: { ...pretendard(700), color: 'rgba(255,255,255,0.72)', fontSize: 12 },
 });

@@ -125,7 +125,7 @@ export function SettingsScreen() {
         <Text style={[styles.dialogTitle, { color: colors.text }]}>{pendingImport ? '이 백업을 가져올까요?' : '백업을 가져올까요?'}</Text>
         <Text style={[styles.dialogBody, { color: colors.textMuted }]}>{pendingImport ? `${pendingImport.entryCount}개 기록과 최근 삭제 ${pendingImport.deletedEntryCount}개가 들어 있어요. 내보낸 시각은 ${formatExportedAt(pendingImport.exportedAt)}입니다. 현재 기기의 기록은 이 백업으로 교체됩니다.` : '현재 기기의 기록과 최근 삭제 목록이 선택한 백업 파일로 교체됩니다. 먼저 현재 기록을 내보내 두는 것을 권장해요.'}</Text>
         <View style={styles.dialogActions}>
-          <AnimatedPressable accessibilityRole="button" onPress={() => { setConfirmImport(false); setPendingImport(null); }} style={[styles.dialogButton, { backgroundColor: colors.surfaceMuted }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={{ color: colors.text, fontWeight: '700' }}>취소</Text></AnimatedPressable>
+          <AnimatedPressable accessibilityRole="button" onPress={() => { setConfirmImport(false); setPendingImport(null); }} style={[styles.dialogButton, { backgroundColor: colors.surfaceMuted }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={[typography.button, { color: colors.text }]}>취소</Text></AnimatedPressable>
           <AnimatedPressable accessibilityRole="button" onPress={pendingImport ? commitImport : pickImport} style={[styles.dialogButton, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={[typography.button, { color: '#fff' }]}>{pendingImport ? '가져오기' : '파일 선택'}</Text></AnimatedPressable>
         </View>
       </AnimatedDialog>

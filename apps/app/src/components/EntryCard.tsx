@@ -7,6 +7,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
 import { typography } from '@/src/theme/tokens';
+import { pretendard } from '@/src/theme/typography';
 import { Entry, ENTRY_LABEL } from '@/src/types/entry';
 
 export const EntryCard = memo(function EntryCard({ entry }: { entry: Entry }) {
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   date: typography.caption,
   title: typography.sectionTitle,
   workMeta: typography.caption,
-  body: { fontSize: 13, lineHeight: 19, fontWeight: '400' },
-  rating: { fontSize: 13, letterSpacing: 1 },
+  body: { ...pretendard(400), fontSize: 13, lineHeight: 19 },
+  rating: { ...pretendard(400), fontSize: 13, letterSpacing: 1 },
   chevron: { flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
 });

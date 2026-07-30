@@ -9,6 +9,7 @@ import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
 import { disableDailyReminder, loadReconciledReminderSettings, scheduleDailyReminder } from '@/src/services/reminder';
 import { typography } from '@/src/theme/tokens';
+import { pretendard } from '@/src/theme/typography';
 
 function hasPermission(status: Notifications.NotificationPermissionsStatus) {
   return status.granted || status.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
@@ -199,9 +200,9 @@ const styles = StyleSheet.create({
   timeRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 18 },
   timeLabel: { ...typography.label, flex: 1 },
   timeInput: { height: 44, borderWidth: 1, borderRadius: 12, paddingHorizontal: 7, flexDirection: 'row', alignItems: 'center' },
-  timeText: { width: 30, textAlign: 'center', fontSize: 17, fontVariant: ['tabular-nums'] },
-  colon: { fontSize: 17, fontWeight: '600' },
+  timeText: { ...pretendard(400), width: 30, textAlign: 'center', fontSize: 17, fontVariant: ['tabular-nums'] },
+  colon: { ...pretendard(600), fontSize: 17 },
   saveButton: { height: 44, borderRadius: 12, paddingHorizontal: 15, alignItems: 'center', justifyContent: 'center' },
   saveText: { ...typography.label, color: '#FFFFFF' },
-  message: { marginHorizontal: 20, marginTop: 16, fontSize: 13, lineHeight: 19, textAlign: 'center' },
+  message: { ...pretendard(400), marginHorizontal: 20, marginTop: 16, fontSize: 13, lineHeight: 19, textAlign: 'center' },
 });

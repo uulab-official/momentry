@@ -306,7 +306,7 @@ export function EntryFormScreen() {
           {dateError ? <Text accessibilityLiveRegion="polite" style={[styles.dateError, { color: colors.tint }]}>{dateError}</Text> : null}
           <AnimatedPressable accessibilityRole="button" onPress={() => { setDateDraft(today); setDateError(null); }} pressedOpacity={0.68} scaleTo={0.98}><Text style={[styles.today, { color: colors.primary }]}>오늘로 설정</Text></AnimatedPressable>
           <View style={styles.dialogActions}>
-            <AnimatedPressable accessibilityRole="button" onPress={() => { setDateOpen(false); setDateError(null); }} style={[styles.dialogButton, { backgroundColor: colors.surfaceMuted }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={{ color: colors.text, fontWeight: '700' }}>취소</Text></AnimatedPressable>
+            <AnimatedPressable accessibilityRole="button" onPress={() => { setDateOpen(false); setDateError(null); }} style={[styles.dialogButton, { backgroundColor: colors.surfaceMuted }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={[typography.button, { color: colors.text }]}>취소</Text></AnimatedPressable>
             <AnimatedPressable accessibilityRole="button" onPress={saveDate} style={[styles.dialogButton, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={[typography.button, { color: '#fff' }]}>적용</Text></AnimatedPressable>
           </View>
         </KeyboardAvoidingView>
@@ -391,9 +391,9 @@ const styles = StyleSheet.create({
     }),
   },
   field: { gap: 9 }, fieldHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }, label: typography.label, counter: { ...typography.caption, fontVariant: ['tabular-nums'] }, helper: typography.caption,
-  input: { borderWidth: 1.5, minHeight: 52, borderRadius: 15, paddingHorizontal: 15, fontSize: 16 },
+  input: { ...typography.body, borderWidth: 1.5, minHeight: 52, borderRadius: 15, paddingHorizontal: 15, fontSize: 16 },
   dateButton: { borderWidth: 1, height: 52, borderRadius: 15, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  dateText: { flex: 1, fontSize: 16, fontVariant: ['tabular-nums'] },
+  dateText: { ...typography.body, flex: 1, fontSize: 16, fontVariant: ['tabular-nums'] },
   textarea: { minHeight: 180, paddingTop: 15, lineHeight: 23 },
   ratingHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   ratingValue: { minHeight: 28, borderRadius: 9, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center' },
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   save: { height: 54, borderRadius: 17, alignItems: 'center', justifyContent: 'center' }, saveContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }, saveText: { ...typography.button, color: '#fff' },
   overlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
   dateDialog: { width: '100%', maxWidth: 360, padding: 22, borderRadius: 22 }, dateDialogContent: { gap: 10 }, dialogTitle: typography.screenTitle,
-  dateInput: { borderWidth: 1, borderRadius: 14, height: 52, paddingHorizontal: 14, fontSize: 16, marginTop: 6, fontVariant: ['tabular-nums'] },
+  dateInput: { ...typography.body, borderWidth: 1, borderRadius: 14, height: 52, paddingHorizontal: 14, fontSize: 16, marginTop: 6, fontVariant: ['tabular-nums'] },
   dateError: typography.caption,
   today: { ...typography.label, alignSelf: 'flex-end' }, dialogActions: { flexDirection: 'row', gap: 10, marginTop: 8 },
   dialogButton: { flex: 1, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },

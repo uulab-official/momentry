@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   toolsClip: { flexShrink: 0, overflow: 'hidden' },
   tools: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingBottom: 8 },
   searchBox: { flex: 1, height: 46, borderWidth: 1, borderRadius: 14, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  searchInput: { flex: 1, height: '100%', fontSize: 15 },
+  searchInput: { ...typography.body, flex: 1, height: '100%' },
   clearSearch: { width: 40, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' },
   sortButton: { height: 46, borderWidth: 1, borderRadius: 14, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 4 },
   sortText: typography.caption,

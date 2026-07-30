@@ -4,6 +4,7 @@ import { Tabs } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { pretendard } from '@/src/theme/typography';
 
 const TAB_CONTENT_HEIGHT = 64;
 
@@ -33,7 +34,7 @@ export default function TabsLayout() {
         tabBarItemStyle: { minHeight: 44, paddingVertical: 0 },
         tabBarLabelPosition: 'below-icon',
         tabBarIconStyle: { marginBottom: 2 },
-        tabBarLabelStyle: { fontSize: 11, lineHeight: 14, fontWeight: '600' },
+        tabBarLabelStyle: { ...pretendard(600), fontSize: 11, lineHeight: 14 },
       }}
     >
       <Tabs.Screen name="index" options={{ title: '일기', tabBarIcon: ({ color, size }) => <Ionicons name="sparkles" color={color} size={size} /> }} />
