@@ -40,7 +40,7 @@ export function AllEntriesSearchScreen() {
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <AppBar title="모든 기억" back />
-      <View style={[styles.searchBox, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+      <View style={[styles.searchBox, { borderColor: colors.border }]}>
         <Ionicons name="search" size={19} color={colors.textMuted} />
         <TextInput
           autoFocus
@@ -74,11 +74,11 @@ export function AllEntriesSearchScreen() {
           ListHeaderComponentStyle={error && entries.length > 0 ? styles.listHeader : undefined}
           ListEmptyComponent={
             <View style={styles.empty}>
-              <View style={[styles.emptyIcon, { backgroundColor: colors.primarySoft }]}><Ionicons name="search-outline" size={40} color={colors.primary} /></View>
+              <Text style={[styles.emptyEyebrow, { color: colors.primary }]}>{error ? '불러오기 확인' : query.trim() ? '검색 결과' : '나의 아카이브'}</Text>
               <Text style={[styles.emptyTitle, { color: colors.text }]}>{error ?? (query.trim() ? '검색 결과가 없어요' : '아직 저장한 기억이 없어요')}</Text>
               <Text style={[styles.emptyBody, { color: colors.textMuted }]}>{error ? '잠시 후 다시 시도해주세요.' : query.trim() ? '다른 검색어로 기억을 찾아보세요.' : '일기, 영화, 책 기록을 남기면 이곳에서 한 번에 찾아볼 수 있어요.'}</Text>
-              {error ? <AnimatedPressable accessibilityRole="button" onPress={() => refresh()} style={[styles.retry, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={styles.retryText}>다시 시도</Text></AnimatedPressable> : null}
-              {!error && !query.trim() ? <AnimatedPressable accessibilityRole="button" onPress={() => router.push('/entry/new?kind=diary')} style={[styles.retry, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={styles.retryText}>첫 기억 남기기</Text></AnimatedPressable> : null}
+              {error ? <AnimatedPressable accessibilityRole="button" onPress={() => refresh()} style={[styles.retry, { borderColor: colors.primary }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={[styles.retryText, { color: colors.primary }]}>다시 시도</Text></AnimatedPressable> : null}
+              {!error && !query.trim() ? <AnimatedPressable accessibilityRole="button" onPress={() => router.push('/entry/new?kind=diary')} style={[styles.retry, { borderColor: colors.primary }]} pressedOpacity={0.72} scaleTo={0.98}><Text style={[styles.retryText, { color: colors.primary }]}>첫 기억 남기기</Text></AnimatedPressable> : null}
             </View>
           }
         />
@@ -89,7 +89,7 @@ export function AllEntriesSearchScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  searchBox: { height: 48, marginHorizontal: 16, marginBottom: 8, borderWidth: 1, borderRadius: 15, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  searchBox: { height: 48, marginHorizontal: 18, marginTop: 4, marginBottom: 10, borderBottomWidth: 1.5, flexDirection: 'row', alignItems: 'center', gap: 9 },
   searchInput: { ...typography.body, flex: 1, height: '100%' },
   clearSearch: { width: 40, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' },
   resultMeta: { minHeight: 28, paddingHorizontal: 18, paddingBottom: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
@@ -101,10 +101,10 @@ const styles = StyleSheet.create({
   inlineErrorText: { ...typography.caption, flex: 1 },
   inlineRetry: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   emptyList: { flexGrow: 1 },
-  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24, paddingBottom: 70 },
-  emptyIcon: { width: 82, height: 82, borderRadius: 41, alignItems: 'center', justifyContent: 'center', marginBottom: 20 },
+  empty: { flex: 1, alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 2, paddingBottom: 90 },
+  emptyEyebrow: { ...typography.overline, marginBottom: 8 },
   emptyTitle: { ...typography.sectionTitle, marginBottom: 8 },
-  emptyBody: { ...typography.body, textAlign: 'center' },
-  retry: { marginTop: 18, minHeight: 44, paddingHorizontal: 20, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  retryText: { ...typography.button, color: '#fff' },
+  emptyBody: { ...typography.body, maxWidth: 310 },
+  retry: { marginTop: 18, minHeight: 44, paddingHorizontal: 16, borderRadius: 10, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  retryText: typography.button,
 });
