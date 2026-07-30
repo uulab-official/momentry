@@ -163,3 +163,4 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - 호환: 기존 `/settings/theme` 진입은 설정 화면으로 리다이렉트
 - Web 회귀: 기존 다크 저장 상태가 있던 320×700 설정, 320×700 영화 작성·별점, 320×700 빈 홈 확인. 콘솔 오류 0건
 - 검증: `npm run ota:check` 통과(Expo Doctor 19/19), production iOS·Android·Web export 통과, native baseline guard 통과
+- production OTA: `b643ec69-7250-45a8-8fdc-59a936431a44` — iOS·Android, runtime `1.0.0`, commit `3fef460`
