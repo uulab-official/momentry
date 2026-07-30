@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
+import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -13,21 +15,30 @@ import { useEntries } from '@/src/providers/EntriesProvider';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
 
 type BusyAction = 'export' | 'import' | null;
+type Status = { message: string; tone: 'success' | 'error' };
+const LAST_EXPORT_AT_KEY = 'momentry:last-export-at';
 
 export function SettingsScreen() {
   const router = useRouter();
   const { colors, mode } = useAppTheme();
   const { refresh } = useEntries();
   const [busy, setBusy] = useState<BusyAction>(null);
-  const [status, setStatus] = useState<string | null>(null);
+  const [status, setStatus] = useState<Status | null>(null);
   const [confirmImport, setConfirmImport] = useState(false);
   const [pendingImport, setPendingImport] = useState<ImportCandidate | null>(null);
   const [deletedCount, setDeletedCount] = useState(0);
+  const [lastExportedAt, setLastExportedAt] = useState<string | null>(null);
   const modeLabel = mode === 'system' ? '시스템' : mode === 'dark' ? '다크' : '라이트';
 
   useFocusEffect(useCallback(() => {
     let active = true;
-    void listDeletedEntries().then((entries) => { if (active) setDeletedCount(entries.length); }).catch(() => undefined);
+    void Promise.all([listDeletedEntries(), AsyncStorage.getItem(LAST_EXPORT_AT_KEY)])
+      .then(([entries, exportedAt]) => {
+        if (!active) return;
+        setDeletedCount(entries.length);
+        setLastExportedAt(exportedAt);
+      })
+      .catch(() => undefined);
     return () => { active = false; };
   }, []));
 
@@ -37,11 +48,14 @@ export function SettingsScreen() {
     Haptics.selectionAsync().catch(() => undefined);
     try {
       const result = await exportBackup();
+      const exportedAt = new Date().toISOString();
+      setLastExportedAt(exportedAt);
+      AsyncStorage.setItem(LAST_EXPORT_AT_KEY, exportedAt).catch(() => undefined);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
-      setStatus(`${result.entryCount}개 기록과 최근 삭제 ${result.deletedEntryCount}개를 사진과 함께 백업했어요.`);
+      setStatus({ tone: 'success', message: `${result.entryCount}개 기록과 최근 삭제 ${result.deletedEntryCount}개를 사진과 함께 내보냈어요.` });
     } catch (error) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => undefined);
-      setStatus(error instanceof Error ? error.message : '백업 파일을 만들지 못했어요.');
+      setStatus({ tone: 'error', message: error instanceof Error ? error.message : '백업 파일을 만들지 못했어요.' });
     } finally {
       setBusy(null);
     }
@@ -59,7 +73,7 @@ export function SettingsScreen() {
         setConfirmImport(true);
       }
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : '백업 파일을 가져오지 못했어요.');
+      setStatus({ tone: 'error', message: error instanceof Error ? error.message : '백업 파일을 가져오지 못했어요.' });
     } finally {
       setBusy(null);
     }
@@ -77,10 +91,10 @@ export function SettingsScreen() {
       setPendingImport(null);
       setDeletedCount(result.deletedEntryCount);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
-      setStatus(`${result.entryCount}개 기록과 최근 삭제 ${result.deletedEntryCount}개를 가져왔어요.`);
+      setStatus({ tone: 'success', message: `${result.entryCount}개 기록과 최근 삭제 ${result.deletedEntryCount}개를 가져왔어요.` });
     } catch (error) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => undefined);
-      setStatus(error instanceof Error ? error.message : '백업 파일을 가져오지 못했어요.');
+      setStatus({ tone: 'error', message: error instanceof Error ? error.message : '백업 파일을 가져오지 못했어요.' });
     } finally {
       setBusy(null);
     }
@@ -97,15 +111,16 @@ export function SettingsScreen() {
         </View>
         <Text style={[styles.section, { color: colors.textMuted }]}>데이터</Text>
         <View style={[styles.group, { borderColor: colors.border }]}>
-          <SettingsRow icon="share-outline" label="백업 내보내기" value={busy === 'export' ? '준비 중' : undefined} onPress={busy ? undefined : runExport} />
+          <SettingsRow icon="share-outline" label="백업 내보내기" value={busy === 'export' ? '준비 중' : lastExportedAt ? formatCompactDate(lastExportedAt) : undefined} onPress={busy ? undefined : runExport} />
           <SettingsRow icon="document-attach-outline" label="백업 가져오기" value={busy === 'import' ? '가져오는 중' : undefined} onPress={busy ? undefined : () => setConfirmImport(true)} />
           <SettingsRow icon="trash-outline" label="최근 삭제" value={deletedCount > 0 ? `${deletedCount}개` : '비어 있음'} onPress={() => router.push('/settings/trash')} />
         </View>
         <View style={[styles.dataNote, { backgroundColor: colors.primarySoft }]}>
-          <Text style={[styles.dataNoteTitle, { color: colors.text }]}>사진과 최근 삭제 기록까지 한 파일에</Text>
+          <View style={styles.dataNoteHeader}><Ionicons name="shield-checkmark-outline" size={18} color={colors.primary} /><Text style={[styles.dataNoteTitle, { color: colors.text }]}>사진과 최근 삭제 기록까지 한 파일에</Text></View>
           <Text style={[styles.dataNoteBody, { color: colors.textMuted }]}>백업 파일은 기기 밖에 직접 보관해야 앱 삭제나 기기 분실 뒤에도 가져올 수 있어요.</Text>
+          <Text style={[styles.lastExport, { color: colors.primary }]}>{lastExportedAt ? `마지막 내보내기 ${formatExportedAt(lastExportedAt)}` : '아직 내보낸 백업 파일이 없어요.'}</Text>
         </View>
-        {status ? <View accessibilityLiveRegion="polite" style={[styles.status, { backgroundColor: colors.primarySoft }]}><Text style={[styles.statusText, { color: colors.text }]}>{status}</Text></View> : null}
+        {status ? <View accessibilityLiveRegion="polite" style={[styles.status, { backgroundColor: status.tone === 'success' ? colors.primarySoft : `${colors.tint}18`, borderColor: status.tone === 'success' ? colors.primary : colors.tint }]}><Ionicons name={status.tone === 'success' ? 'checkmark-circle' : 'alert-circle'} size={20} color={status.tone === 'success' ? colors.primary : colors.tint} /><Text style={[styles.statusText, { color: colors.text }]}>{status.message}</Text><AnimatedPressable accessibilityRole="button" accessibilityLabel="상태 메시지 닫기" onPress={() => setStatus(null)} style={styles.statusClose} pressedOpacity={0.6} scaleTo={0.9}><Ionicons name="close" size={18} color={colors.textMuted} /></AnimatedPressable></View> : null}
         {busy ? <ActivityIndicator accessibilityLabel="데이터 처리 중" color={colors.primary} style={styles.busy} /> : null}
       </ScrollView>
       <AnimatedDialog visible={confirmImport} onRequestClose={() => { setConfirmImport(false); setPendingImport(null); }} dialogStyle={[styles.dialog, { backgroundColor: colors.surface }]}>
@@ -126,16 +141,25 @@ function formatExportedAt(value: string) {
   return new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
 }
 
+function formatCompactDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return new Intl.DateTimeFormat('ko-KR', { month: 'numeric', day: 'numeric' }).format(date);
+}
+
 const styles = StyleSheet.create({
   root: { flex: 1 },
   content: { paddingBottom: 32 },
   group: { marginHorizontal: 16, borderWidth: 1, borderRadius: 18, overflow: 'hidden' },
   section: { fontSize: 12, fontWeight: '800', marginHorizontal: 21, marginBottom: 8, marginTop: 20 },
-  dataNote: { marginHorizontal: 16, marginTop: 12, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12, gap: 3 },
+  dataNote: { marginHorizontal: 16, marginTop: 12, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 13, gap: 5 },
+  dataNoteHeader: { flexDirection: 'row', alignItems: 'center', gap: 7 },
   dataNoteTitle: { fontSize: 13, fontWeight: '800' },
   dataNoteBody: { fontSize: 12, lineHeight: 18 },
-  status: { margin: 16, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 12 },
-  statusText: { fontSize: 13, lineHeight: 19, fontWeight: '600' },
+  lastExport: { fontSize: 11, lineHeight: 17, fontWeight: '800', marginTop: 2 },
+  status: { margin: 16, borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, paddingLeft: 13, minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 9 },
+  statusText: { flex: 1, minWidth: 0, fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  statusClose: { width: 44, height: 44, flexShrink: 0, alignItems: 'center', justifyContent: 'center' },
   busy: { marginTop: 10 },
   dialog: { width: '100%', maxWidth: 420, borderRadius: 22, padding: 22 },
   dialogTitle: { fontSize: 20, fontWeight: '900', marginBottom: 10 },

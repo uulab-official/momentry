@@ -1,6 +1,7 @@
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
+import { Platform } from 'react-native';
 
 import { listDeletedEntries, listEntries, replaceEntries } from '@/src/db/database';
 import { toBackupImageUri } from '@/src/services/image-storage';
@@ -130,10 +131,26 @@ function fileNameDate(date: Date) {
   return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
 }
 
+function downloadWebBackup(contents: string, fileName: string) {
+  if (typeof document === 'undefined' || typeof URL === 'undefined') {
+    throw new Error('이 브라우저에서는 백업 파일을 다운로드할 수 없어요.');
+  }
+  const blob = new Blob([contents], { type: 'application/json;charset=utf-8' });
+  if (blob.size > MAX_BACKUP_BYTES) {
+    throw new Error('사진을 포함한 백업 파일은 100MB까지 만들 수 있어요. 큰 사진을 줄인 뒤 다시 시도해주세요.');
+  }
+  const uri = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = uri;
+  link.download = fileName;
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(uri), 1_000);
+}
+
 export async function exportBackup() {
-  const directory = FileSystem.cacheDirectory;
-  if (!directory) throw new Error('백업 파일을 만들 저장 공간을 찾지 못했어요.');
-  if (!(await Sharing.isAvailableAsync())) throw new Error('이 기기에서는 파일 공유를 사용할 수 없어요.');
   const payload: BackupPayload = {
     schema: BACKUP_SCHEMA,
     version: BACKUP_VERSION,
@@ -147,9 +164,19 @@ export async function exportBackup() {
   for (const entry of await listDeletedEntries()) {
     payload.deletedEntries.push({ ...entry, imageUri: await toBackupImageUri(entry.imageUri) });
   }
-  const uri = `${directory}momentry-backup-${fileNameDate(new Date())}.json`;
+  const contents = JSON.stringify(payload);
+  const fileName = `momentry-backup-${fileNameDate(new Date())}.json`;
+  if (Platform.OS === 'web') {
+    downloadWebBackup(contents, fileName);
+    return { entryCount: payload.entries.length, deletedEntryCount: payload.deletedEntries.length };
+  }
+
+  const directory = FileSystem.cacheDirectory;
+  if (!directory) throw new Error('백업 파일을 만들 저장 공간을 찾지 못했어요.');
+  if (!(await Sharing.isAvailableAsync())) throw new Error('이 기기에서는 파일 공유를 사용할 수 없어요.');
+  const uri = `${directory}${fileName}`;
   try {
-    await FileSystem.writeAsStringAsync(uri, JSON.stringify(payload), { encoding: FileSystem.EncodingType.UTF8 });
+    await FileSystem.writeAsStringAsync(uri, contents, { encoding: FileSystem.EncodingType.UTF8 });
     const info = await FileSystem.getInfoAsync(uri);
     if (info.exists && typeof info.size === 'number' && info.size > MAX_BACKUP_BYTES) {
       throw new Error('사진을 포함한 백업 파일은 100MB까지 만들 수 있어요. 큰 사진을 줄인 뒤 다시 시도해주세요.');
@@ -166,7 +193,9 @@ export async function pickBackup(): Promise<ImportCandidate | null> {
   if (result.canceled || !result.assets?.[0]?.uri) return null;
   const source = result.assets[0];
   if (source.size && source.size > MAX_BACKUP_BYTES) throw new Error('백업 파일은 100MB까지 가져올 수 있어요.');
-  const raw = await FileSystem.readAsStringAsync(source.uri, { encoding: FileSystem.EncodingType.UTF8 });
+  const raw = Platform.OS === 'web' && source.file
+    ? await source.file.text()
+    : await FileSystem.readAsStringAsync(source.uri, { encoding: FileSystem.EncodingType.UTF8 });
   if (raw.length > MAX_BACKUP_BYTES) throw new Error('백업 파일은 100MB까지 가져올 수 있어요.');
   let parsed: unknown;
   try {

@@ -142,3 +142,13 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - OTA guard: SDK `57.0.8`, RN `0.86.0`, package/lockfile, runtime `1.0.0`과 모든 native-sensitive 설정이 검증된 스토어 기준선 `1.0.0 (26072302)`과 동일
 - production OTA: `c125a02f-1a16-4c31-bb63-ed99056b2ec9` — iOS·Android, runtime `1.0.0`, commit `50d0b7c`
 - 다음 단계: 설치된 iOS·Android 스토어 바이너리에서 safe-area·탭 전환·백업·알림 회귀 QA
+
+## 2026-07-30 기능·UI·UX 고도화
+
+- 변경 분류: `ota`
+- 기능: 마지막 백업 내보내기 시각을 로컬에 기록하고 성공·오류 상태를 명확히 표시, Web 내보내기 Blob 다운로드와 가져오기 파일 읽기 지원
+- UX: 첫 기록 CTA, 중복 FAB 제거, 검색 열기·닫기 애니메이션과 동작 줄이기·접근성 처리, 작성 성공·별점 햅틱
+- 디자인: 기록 종류 칩, 일기 사진과 영화·책 포스터 비율 분리, 작성 필드 포커스·별점 수치·저장 버튼 위계 보강
+- Web 회귀: 320×568 라이트 빈 상태·검색·작성·저장·카드·설정, 320×568 다크 카드, 320×700 다크 백업 내보내기·가져오기 확인. v2 JSON 다운로드와 복원 성공, 콘솔 오류 0건
+- 검증: `npm run ota:check` 통과(Expo Doctor 19/19), production iOS·Android·Web export 통과, native baseline guard 통과
+- 참고: 일반 Expo Doctor는 2026-07-30 공개 SDK 57 패치 권장 버전 12건을 보고했다. 현재 스토어 바이너리의 검증 기준선과 달라지는 네이티브 의존성이므로 이번 OTA에서는 올리지 않고 다음 바이너리 릴리스에서 별도 검증한다.

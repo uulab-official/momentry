@@ -63,6 +63,7 @@ export function EntryFormScreen() {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [discardOpen, setDiscardOpen] = useState(false);
+  const [focusedField, setFocusedField] = useState<'title' | 'content' | null>(null);
   const [initialSnapshot, setInitialSnapshot] = useState<FormSnapshot>(() => ({ title: first(params.title) ?? '', content: '', rating: kind === 'diary' ? 0 : 3, imageUri: first(params.imageUri) ?? '', date: today }));
   const navigation = useNavigation();
   const allowRemove = useRef(false);
@@ -130,6 +131,7 @@ export function EntryFormScreen() {
       if (!result.canceled) {
         const asset = result.assets[0];
         setImageUri(asset.uri);
+        Haptics.selectionAsync().catch(() => undefined);
       }
     } catch {
       setNotice({ title: '사진을 불러오지 못했어요', message: '사진 접근 권한과 저장 공간을 확인해주세요.' });
@@ -180,10 +182,12 @@ export function EntryFormScreen() {
           creator: existing.creator,
           releaseYear: existing.releaseYear,
         });
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
         allowRemove.current = true;
         goBackOrHome(router);
       } else {
         const id = await add(draft);
+        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
         allowRemove.current = true;
         router.replace(`/entry/${id}`);
       }
@@ -271,7 +275,7 @@ export function EntryFormScreen() {
           <AnimatedPressable accessibilityRole="button" accessibilityLabel={imageUri ? '사진 바꾸기' : '사진 선택'} accessibilityState={{ selected: Boolean(imageUri) }} onPress={pickImage} style={[styles.imagePicker, { backgroundColor: colors.surfaceMuted, borderColor: colors.border }]} pressedOpacity={0.86} scaleTo={0.99}>
             {imageUri ? <Image source={{ uri: imageUri }} style={StyleSheet.absoluteFill} resizeMode="cover" /> : <><Ionicons name="image-outline" size={34} color={colors.primary} /><Text style={{ color: colors.textMuted }}>사진을 추가해보세요</Text></>}
           </AnimatedPressable>
-          {imageUri ? <AnimatedPressable accessibilityRole="button" accessibilityLabel="사진 제거" onPress={() => setImageUri('')} style={[styles.removeImage, { backgroundColor: colors.surface }]} pressedOpacity={0.72} scaleTo={0.9}><Ionicons name="close" size={20} color={colors.text} /></AnimatedPressable> : null}
+          {imageUri ? <AnimatedPressable accessibilityRole="button" accessibilityLabel="사진 제거" onPress={() => { Haptics.selectionAsync().catch(() => undefined); setImageUri(''); }} style={[styles.removeImage, { backgroundColor: colors.surface }]} pressedOpacity={0.72} scaleTo={0.9}><Ionicons name="close" size={20} color={colors.text} /></AnimatedPressable> : null}
         </View>
         <View style={styles.field}>
           <Text style={[styles.label, { color: colors.text }]}>날짜</Text>
@@ -279,18 +283,18 @@ export function EntryFormScreen() {
         </View>
         <View style={styles.field}>
           <View style={styles.fieldHeader}><Text style={[styles.label, { color: colors.text }]}>제목</Text><Text style={[styles.counter, { color: colors.textMuted }]}>{title.length}/{MAX_TITLE_LENGTH}</Text></View>
-          <TextInput value={title} maxLength={MAX_TITLE_LENGTH} onChangeText={setTitle} accessibilityLabel="기록 제목" returnKeyType="next" placeholder={kind === 'diary' ? '오늘의 모멘트' : `${ENTRY_LABEL[kind]} 제목`} placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, { color: colors.text, backgroundColor: colors.surface, borderColor: colors.border }]} />
-          {!title.trim() ? <Text style={[styles.helper, { color: colors.textMuted }]}>제목을 입력하면 저장할 수 있어요.</Text> : null}
+          <TextInput value={title} maxLength={MAX_TITLE_LENGTH} onChangeText={setTitle} onFocus={() => setFocusedField('title')} onBlur={() => setFocusedField(null)} accessibilityLabel="기록 제목" returnKeyType="next" placeholder={kind === 'diary' ? '오늘의 모멘트' : `${ENTRY_LABEL[kind]} 제목`} placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, { color: colors.text, backgroundColor: colors.surface, borderColor: focusedField === 'title' ? colors.primary : colors.border }]} />
+          <Text style={[styles.helper, { color: colors.textMuted }]}>{title.trim() ? '제목은 기억 목록에서 가장 먼저 보여요.' : '제목을 입력하면 저장할 수 있어요.'}</Text>
         </View>
-        {kind !== 'diary' ? <View style={styles.field}><Text style={[styles.label, { color: colors.text }]}>나의 별점</Text><View style={styles.stars}>{[1, 2, 3, 4, 5].map((star) => <AnimatedPressable key={star} accessibilityRole="radio" accessibilityLabel={`${star}점`} accessibilityState={{ selected: star === rating }} onPress={() => setRating(star)} hitSlop={5} pressedOpacity={0.68} scaleTo={0.88}><Ionicons name={star <= rating ? 'star' : 'star-outline'} size={31} color="#ECAA3D" /></AnimatedPressable>)}</View></View> : null}
+        {kind !== 'diary' ? <View style={styles.field}><View style={styles.ratingHeader}><Text style={[styles.label, { color: colors.text }]}>나의 별점</Text><View style={[styles.ratingValue, { backgroundColor: colors.primarySoft }]}><Text style={[styles.ratingValueText, { color: colors.primary }]}>{rating}점</Text></View></View><View style={styles.stars}>{[1, 2, 3, 4, 5].map((star) => <AnimatedPressable key={star} accessibilityRole="radio" accessibilityLabel={`${star}점`} accessibilityState={{ selected: star === rating }} onPress={() => { Haptics.selectionAsync().catch(() => undefined); setRating(star); }} hitSlop={5} pressedOpacity={0.68} scaleTo={0.88}><Ionicons name={star <= rating ? 'star' : 'star-outline'} size={31} color="#ECAA3D" /></AnimatedPressable>)}</View><Text style={[styles.ratingHint, { color: colors.textMuted }]}>별을 눌러 이 순간의 여운을 남겨보세요.</Text></View> : null}
         <View style={styles.field}>
           <View style={styles.fieldHeader}><Text style={[styles.label, { color: colors.text }]}>내용</Text><Text style={[styles.counter, { color: colors.textMuted }]}>{content.length.toLocaleString()}/{MAX_CONTENT_LENGTH.toLocaleString()}</Text></View>
-          <TextInput value={content} maxLength={MAX_CONTENT_LENGTH} onChangeText={setContent} accessibilityLabel="기록 내용" multiline textAlignVertical="top" placeholder="기억하고 싶은 순간을 자유롭게 적어보세요." placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, styles.textarea, { color: colors.text, backgroundColor: colors.surface, borderColor: colors.border }]} />
+          <TextInput value={content} maxLength={MAX_CONTENT_LENGTH} onChangeText={setContent} onFocus={() => setFocusedField('content')} onBlur={() => setFocusedField(null)} accessibilityLabel="기록 내용" multiline textAlignVertical="top" placeholder="기억하고 싶은 순간을 자유롭게 적어보세요." placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, styles.textarea, { color: colors.text, backgroundColor: colors.surface, borderColor: focusedField === 'content' ? colors.primary : colors.border }]} />
         </View>
       </ScrollView>
       <View style={[styles.footer, { backgroundColor: colors.background, paddingBottom: Math.max(insets.bottom, 12), borderColor: colors.border }]}>
         <AnimatedPressable accessibilityRole="button" accessibilityState={{ disabled: !title.trim() || saving, busy: saving }} disabled={!title.trim() || saving} onPress={save} style={[styles.save, { backgroundColor: colors.primary, opacity: !title.trim() || saving ? 0.4 : 1 }]} pressedOpacity={0.85} scaleTo={0.985}>
-          <View style={styles.saveContent}>{saving ? <ActivityIndicator size="small" color="#fff" /> : null}<Text style={styles.saveText}>{saving ? '저장 중…' : editingId ? '수정 완료' : '기억 저장하기'}</Text></View>
+          <View style={styles.saveContent}>{saving ? <ActivityIndicator size="small" color="#fff" /> : <Ionicons name="checkmark" size={20} color="#fff" />}<Text style={styles.saveText}>{saving ? '저장 중…' : editingId ? '수정 완료' : '기억 저장하기'}</Text></View>
         </AnimatedPressable>
       </View>
       <AnimatedDialog visible={dateOpen} onRequestClose={() => setDateOpen(false)} dialogStyle={[styles.dateDialog, { backgroundColor: colors.surface }]}>
@@ -386,10 +390,15 @@ const styles = StyleSheet.create({
     }),
   },
   field: { gap: 9 }, fieldHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }, label: { fontSize: 15, fontWeight: '800' }, counter: { fontSize: 12, fontVariant: ['tabular-nums'] }, helper: { fontSize: 12, lineHeight: 18 },
-  input: { borderWidth: 1, minHeight: 52, borderRadius: 15, paddingHorizontal: 15, fontSize: 16 },
+  input: { borderWidth: 1.5, minHeight: 52, borderRadius: 15, paddingHorizontal: 15, fontSize: 16 },
   dateButton: { borderWidth: 1, height: 52, borderRadius: 15, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', gap: 10 },
   dateText: { flex: 1, fontSize: 16, fontVariant: ['tabular-nums'] },
-  textarea: { minHeight: 180, paddingTop: 15, lineHeight: 23 }, stars: { flexDirection: 'row', gap: 8 },
+  textarea: { minHeight: 180, paddingTop: 15, lineHeight: 23 },
+  ratingHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  ratingValue: { minHeight: 28, borderRadius: 9, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center' },
+  ratingValueText: { fontSize: 12, fontWeight: '900', fontVariant: ['tabular-nums'] },
+  stars: { flexDirection: 'row', gap: 8 },
+  ratingHint: { fontSize: 12, lineHeight: 18 },
   footer: { position: 'absolute', bottom: 0, left: 0, right: 0, borderTopWidth: StyleSheet.hairlineWidth, paddingHorizontal: 16, paddingTop: 12 },
   save: { height: 54, borderRadius: 17, alignItems: 'center', justifyContent: 'center' }, saveContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }, saveText: { color: '#fff', fontSize: 17, fontWeight: '800' },
   overlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
