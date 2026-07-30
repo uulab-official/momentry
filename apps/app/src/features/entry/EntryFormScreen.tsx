@@ -273,24 +273,24 @@ export function EntryFormScreen() {
       <AppBar title={`${ENTRY_LABEL[kind]} ${editingId ? '수정' : '기록'}`} close onBack={requestBack} />
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: 116 + insets.bottom }]} keyboardShouldPersistTaps="handled">
         <View>
-          <AnimatedPressable accessibilityRole="button" accessibilityLabel={imageUri ? '사진 바꾸기' : '사진 선택'} accessibilityState={{ selected: Boolean(imageUri) }} onPress={pickImage} style={[styles.imagePicker, { backgroundColor: colors.surfaceMuted, borderColor: colors.border }]} pressedOpacity={0.86} scaleTo={0.99}>
-            {imageUri ? <Image source={{ uri: imageUri }} style={StyleSheet.absoluteFill} resizeMode="cover" /> : <><Ionicons name="image-outline" size={34} color={colors.primary} /><Text style={{ color: colors.textMuted }}>사진을 추가해보세요</Text></>}
+          <AnimatedPressable accessibilityRole="button" accessibilityLabel={imageUri ? '사진 바꾸기' : '사진 선택'} accessibilityState={{ selected: Boolean(imageUri) }} onPress={pickImage} style={[styles.imagePicker, imageUri ? styles.imagePickerFilled : styles.imagePickerEmpty, { backgroundColor: imageUri ? colors.surfaceMuted : colors.background, borderColor: colors.border }]} pressedOpacity={0.86} scaleTo={0.99}>
+            {imageUri ? <Image source={{ uri: imageUri }} style={StyleSheet.absoluteFill} resizeMode="cover" /> : <><Ionicons name="image-outline" size={22} color={colors.primary} /><View style={styles.imagePrompt}><Text style={[styles.imagePromptTitle, { color: colors.text }]}>사진 추가</Text><Text style={[styles.imagePromptBody, { color: colors.textMuted }]}>이 순간을 더 선명하게 남겨요</Text></View><Ionicons name="chevron-forward" size={18} color={colors.textMuted} /></>}
           </AnimatedPressable>
           {imageUri ? <AnimatedPressable accessibilityRole="button" accessibilityLabel="사진 제거" onPress={() => { Haptics.selectionAsync().catch(() => undefined); setImageUri(''); }} style={[styles.removeImage, { backgroundColor: colors.surface }]} pressedOpacity={0.72} scaleTo={0.9}><Ionicons name="close" size={20} color={colors.text} /></AnimatedPressable> : null}
         </View>
         <View style={styles.field}>
           <Text style={[styles.label, { color: colors.text }]}>날짜</Text>
-          <AnimatedPressable accessibilityRole="button" accessibilityLabel={`기록 날짜 ${date} 변경`} onPress={() => { Haptics.selectionAsync().catch(() => undefined); setDateDraft(date); setDateOpen(true); }} style={[styles.dateButton, { backgroundColor: colors.surface, borderColor: colors.border }]} pressedOpacity={0.86} scaleTo={0.99}><Ionicons name="calendar-outline" size={21} color={colors.primary} /><Text style={[styles.dateText, { color: colors.text }]}>{date}</Text><Ionicons name="chevron-forward" size={18} color={colors.textMuted} /></AnimatedPressable>
+          <AnimatedPressable accessibilityRole="button" accessibilityLabel={`기록 날짜 ${date} 변경`} onPress={() => { Haptics.selectionAsync().catch(() => undefined); setDateDraft(date); setDateOpen(true); }} style={[styles.dateButton, { borderColor: colors.border }]} pressedOpacity={0.78} scaleTo={0.995}><Text style={[styles.dateText, { color: colors.text }]}>{date}</Text><Text style={[styles.dateAction, { color: colors.primary }]}>변경</Text></AnimatedPressable>
         </View>
         <View style={styles.field}>
           <View style={styles.fieldHeader}><Text style={[styles.label, { color: colors.text }]}>제목</Text><Text style={[styles.counter, { color: colors.textMuted }]}>{title.length}/{MAX_TITLE_LENGTH}</Text></View>
-          <TextInput value={title} maxLength={MAX_TITLE_LENGTH} onChangeText={setTitle} onFocus={() => setFocusedField('title')} onBlur={() => setFocusedField(null)} accessibilityLabel="기록 제목" returnKeyType="next" placeholder={kind === 'diary' ? '오늘의 모멘트' : `${ENTRY_LABEL[kind]} 제목`} placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, { color: colors.text, backgroundColor: colors.surface, borderColor: focusedField === 'title' ? colors.primary : colors.border }]} />
+          <TextInput value={title} maxLength={MAX_TITLE_LENGTH} onChangeText={setTitle} onFocus={() => setFocusedField('title')} onBlur={() => setFocusedField(null)} accessibilityLabel="기록 제목" returnKeyType="next" placeholder={kind === 'diary' ? '오늘의 모멘트' : `${ENTRY_LABEL[kind]} 제목`} placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, { color: colors.text, borderColor: focusedField === 'title' ? colors.primary : colors.border }]} />
           <Text style={[styles.helper, { color: colors.textMuted }]}>{title.trim() ? '제목은 기억 목록에서 가장 먼저 보여요.' : '제목을 입력하면 저장할 수 있어요.'}</Text>
         </View>
         {kind !== 'diary' ? <View style={styles.field}><View style={styles.ratingHeader}><Text style={[styles.label, { color: colors.text }]}>나의 별점</Text><View style={[styles.ratingValue, { backgroundColor: colors.primarySoft }]}><Text style={[styles.ratingValueText, { color: colors.primary }]}>{rating}점</Text></View></View><View style={styles.stars}>{[1, 2, 3, 4, 5].map((star) => <AnimatedPressable key={star} accessibilityRole="radio" accessibilityLabel={`${star}점`} accessibilityState={{ selected: star === rating }} onPress={() => { Haptics.selectionAsync().catch(() => undefined); setRating(star); }} hitSlop={5} pressedOpacity={0.68} scaleTo={0.88}><Ionicons name={star <= rating ? 'star' : 'star-outline'} size={31} color={colors.primary} /></AnimatedPressable>)}</View><Text style={[styles.ratingHint, { color: colors.textMuted }]}>별을 눌러 이 순간의 여운을 남겨보세요.</Text></View> : null}
         <View style={styles.field}>
           <View style={styles.fieldHeader}><Text style={[styles.label, { color: colors.text }]}>내용</Text><Text style={[styles.counter, { color: colors.textMuted }]}>{content.length.toLocaleString()}/{MAX_CONTENT_LENGTH.toLocaleString()}</Text></View>
-          <TextInput value={content} maxLength={MAX_CONTENT_LENGTH} onChangeText={setContent} onFocus={() => setFocusedField('content')} onBlur={() => setFocusedField(null)} accessibilityLabel="기록 내용" multiline textAlignVertical="top" placeholder="기억하고 싶은 순간을 자유롭게 적어보세요." placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, styles.textarea, { color: colors.text, backgroundColor: colors.surface, borderColor: focusedField === 'content' ? colors.primary : colors.border }]} />
+          <TextInput value={content} maxLength={MAX_CONTENT_LENGTH} onChangeText={setContent} onFocus={() => setFocusedField('content')} onBlur={() => setFocusedField(null)} accessibilityLabel="기록 내용" multiline textAlignVertical="top" placeholder="기억하고 싶은 순간을 자유롭게 적어보세요." placeholderTextColor={colors.textMuted} selectionColor={colors.primary} style={[styles.input, styles.textarea, { color: colors.text, borderColor: focusedField === 'content' ? colors.primary : colors.border }]} />
         </View>
       </ScrollView>
       <View style={[styles.footer, { backgroundColor: colors.background, paddingBottom: Math.max(insets.bottom, 12), borderColor: colors.border }]}>
@@ -374,8 +374,13 @@ function EntryFormSkeleton({ kind }: { kind: EntryKind }) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1 }, content: { padding: 16, gap: 22 },
-  imagePicker: { height: 220, borderRadius: 22, borderWidth: 1, overflow: 'hidden', alignItems: 'center', justifyContent: 'center', gap: 9 },
+  root: { flex: 1 }, content: { paddingHorizontal: 18, paddingTop: 8, gap: 24 },
+  imagePicker: { overflow: 'hidden', flexDirection: 'row', alignItems: 'center' },
+  imagePickerEmpty: { minHeight: 64, borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth, paddingHorizontal: 2, gap: 12 },
+  imagePickerFilled: { height: 200, borderRadius: 12, borderWidth: 1, justifyContent: 'center' },
+  imagePrompt: { flex: 1, gap: 2 },
+  imagePromptTitle: typography.label,
+  imagePromptBody: typography.caption,
   removeImage: {
     position: 'absolute',
     top: 10,
@@ -390,30 +395,31 @@ const styles = StyleSheet.create({
       default: { shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 6, elevation: 3 },
     }),
   },
-  field: { gap: 9 }, fieldHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }, label: typography.label, counter: { ...typography.caption, fontVariant: ['tabular-nums'] }, helper: typography.caption,
-  input: { ...typography.body, borderWidth: 1.5, minHeight: 52, borderRadius: 15, paddingHorizontal: 15, fontSize: 16 },
-  dateButton: { borderWidth: 1, height: 52, borderRadius: 15, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  field: { gap: 8 }, fieldHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' }, label: typography.label, counter: { ...typography.caption, fontVariant: ['tabular-nums'] }, helper: typography.caption,
+  input: { ...typography.body, borderWidth: 0, borderBottomWidth: 1.5, minHeight: 50, paddingHorizontal: 0, fontSize: 16 },
+  dateButton: { borderBottomWidth: StyleSheet.hairlineWidth, height: 48, flexDirection: 'row', alignItems: 'center' },
   dateText: { ...typography.body, flex: 1, fontSize: 16, fontVariant: ['tabular-nums'] },
-  textarea: { minHeight: 180, paddingTop: 15, lineHeight: 23 },
+  dateAction: typography.label,
+  textarea: { minHeight: 210, paddingTop: 10, paddingBottom: 14, lineHeight: 24 },
   ratingHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   ratingValue: { minHeight: 28, borderRadius: 9, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center' },
   ratingValueText: { ...typography.caption, fontVariant: ['tabular-nums'] },
   stars: { flexDirection: 'row', gap: 8 },
   ratingHint: typography.caption,
   footer: { position: 'absolute', bottom: 0, left: 0, right: 0, borderTopWidth: StyleSheet.hairlineWidth, paddingHorizontal: 16, paddingTop: 12 },
-  save: { height: 54, borderRadius: 17, alignItems: 'center', justifyContent: 'center' }, saveContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }, saveText: { ...typography.button, color: '#fff' },
+  save: { height: 52, borderRadius: 12, alignItems: 'center', justifyContent: 'center' }, saveContent: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }, saveText: { ...typography.button, color: '#fff' },
   overlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24, zIndex: 20 },
   dateDialog: { width: '100%', maxWidth: 360, padding: 22, borderRadius: 22 }, dateDialogContent: { gap: 10 }, dialogTitle: typography.screenTitle,
   dateInput: { ...typography.body, borderWidth: 1, borderRadius: 14, height: 52, paddingHorizontal: 14, fontSize: 16, marginTop: 6, fontVariant: ['tabular-nums'] },
   dateError: typography.caption,
   today: { ...typography.label, alignSelf: 'flex-end' }, dialogActions: { flexDirection: 'row', gap: 10, marginTop: 8 },
   dialogButton: { flex: 1, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  skeletonContent: { padding: 16, gap: 22 },
-  skeletonImage: { height: 220, borderRadius: 22 },
+  skeletonContent: { paddingHorizontal: 18, paddingTop: 8, gap: 24 },
+  skeletonImage: { height: 64, borderRadius: 4 },
   skeletonField: { gap: 9 },
   skeletonLabel: { width: 46, height: 14, borderRadius: 7 },
-  skeletonInput: { height: 52, borderRadius: 15 },
-  skeletonTextarea: { height: 180, borderRadius: 15 },
+  skeletonInput: { height: 50, borderRadius: 4 },
+  skeletonTextarea: { height: 210, borderRadius: 4 },
   skeletonStars: { flexDirection: 'row', gap: 8 },
   skeletonStar: { width: 31, height: 31, borderRadius: 8 },
   loadError: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 28, paddingBottom: 40 },
