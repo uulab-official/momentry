@@ -1,2 +1,6 @@
 import { StaticInfoScreen } from '@/src/features/settings/StaticInfoScreen';
-export default function TermsRoute() { return <StaticInfoScreen title="이용약관">모멘트리는 개인의 일기, 영화 감상, 독서 기록을 관리하는 로컬 기록 도구입니다. 사용자는 관계 법령과 타인의 권리를 침해하지 않는 범위에서 앱을 이용해야 합니다.\n\n기록은 현재 기기 안에 저장되며, 사용자는 설정에서 JSON 백업 파일로 내보내 별도로 보관할 수 있습니다. 삭제한 기록은 최근 삭제에서 30일 동안 복원할 수 있으며, 백업 파일을 보관하지 않은 상태에서 앱 삭제, 기기 초기화 또는 기기 분실이 발생하면 기록이 복구되지 않을 수 있습니다. 백업 가져오기는 현재 기기의 기록을 선택한 파일로 교체하고 최근 삭제 목록도 정리합니다.\n\n알림은 사용자가 권한을 허용한 경우에만 표시됩니다. 현재는 기기 알림 권한과 로컬 테스트 알림을 제공하며, 원격 푸시는 별도 백엔드와 전송 자격증명이 연결된 뒤에만 제공됩니다.\n\n외부 검색 서비스의 결과와 이미지는 각 제공자의 정책 및 사정에 따라 달라질 수 있습니다.\n\n서비스 문의: uulab.official@gmail.com</StaticInfoScreen>; }
+import { TERMS_COPY } from '@/src/content/legal';
+
+export default function TermsRoute() {
+  return <StaticInfoScreen title="이용약관">{TERMS_COPY}</StaticInfoScreen>;
+}

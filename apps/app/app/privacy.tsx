@@ -1,2 +1,6 @@
 import { StaticInfoScreen } from '@/src/features/settings/StaticInfoScreen';
-export default function PrivacyRoute() { return <StaticInfoScreen title="개인정보 처리방침">모멘트리는 일기, 영화 감상, 독서 기록을 사용자의 기기 안에 저장합니다. 운영자는 이 기록을 수집하거나 서버로 전송하지 않습니다.\n\n사용자가 선택한 사진은 해당 기록을 기기에서 표시하기 위해서만 사용됩니다. 사진 선택은 사용자의 명시적인 동작으로만 시작됩니다.\n\n알림 권한은 사용자의 동의가 있을 때만 요청합니다. 현재 알림 화면은 기기 알림 권한과 로컬 테스트 알림을 제공하며, 원격 푸시 토큰은 Momentry 전용 백엔드가 연결되기 전까지 등록하지 않습니다.\n\n책 또는 영화 검색 기능을 이용하면 검색어가 검색 결과 제공을 위해 Open Library 또는 TMDB에 전송될 수 있습니다.\n\n개인정보 관련 문의: uulab.official@gmail.com\n전체 정책: https://uulab.co.kr/privacy</StaticInfoScreen>; }
+import { PRIVACY_COPY } from '@/src/content/legal';
+
+export default function PrivacyRoute() {
+  return <StaticInfoScreen title="개인정보 처리방침">{PRIVACY_COPY}</StaticInfoScreen>;
+}
