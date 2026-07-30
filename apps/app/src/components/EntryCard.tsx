@@ -13,7 +13,8 @@ import { Entry, ENTRY_LABEL } from '@/src/types/entry';
 export const EntryCard = memo(function EntryCard({ entry }: { entry: Entry }) {
   const router = useRouter();
   const { colors } = useAppTheme();
-  const icon = entry.kind === 'diary' ? 'sparkles' : entry.kind === 'movie' ? 'film' : 'book';
+  const showMedia = Boolean(entry.imageUri) || entry.kind !== 'diary';
+  const icon = entry.kind === 'movie' ? 'film' : 'book';
   const mediaStyle = entry.kind === 'diary' ? styles.diaryMedia : styles.posterMedia;
   const workMeta = [entry.creator, entry.releaseYear].filter(Boolean).join(' · ');
 
@@ -26,13 +27,13 @@ export const EntryCard = memo(function EntryCard({ entry }: { entry: Entry }) {
         style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}
         pressedOpacity={0.94}
         scaleTo={0.985}>
-        {entry.imageUri ? (
-          <Image source={{ uri: entry.imageUri }} style={[styles.media, mediaStyle]} resizeMode="cover" resizeMethod="resize" fadeDuration={160} />
-        ) : (
-          <View style={[styles.media, mediaStyle, styles.placeholder, { backgroundColor: colors.primarySoft }]}>
-            <Ionicons name={icon} size={30} color={colors.primary} />
-          </View>
-        )}
+        {showMedia ? entry.imageUri ? (
+            <Image source={{ uri: entry.imageUri }} style={[styles.media, mediaStyle]} resizeMode="cover" resizeMethod="resize" fadeDuration={160} />
+          ) : (
+            <View style={[styles.media, mediaStyle, styles.placeholder, { backgroundColor: colors.primarySoft }]}>
+              <Ionicons name={icon} size={30} color={colors.primary} />
+            </View>
+          ) : null}
         <View style={styles.content}>
           <View style={styles.metaRow}>
             <Text style={[styles.kind, { color: colors.primary }]}>{ENTRY_LABEL[entry.kind]}</Text>
