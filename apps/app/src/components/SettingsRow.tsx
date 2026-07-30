@@ -4,12 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
+import { typography } from '@/src/theme/tokens';
 
 export function SettingsRow({ icon, label, value, onPress }: { icon: keyof typeof Ionicons.glyphMap; label: string; value?: string; onPress?: () => void }) {
   const { colors } = useAppTheme();
   const content = (
     <>
-      <View style={[styles.icon, { backgroundColor: colors.primarySoft }]}><Ionicons name={icon} size={20} color={colors.primary} /></View>
+      <View style={styles.icon}><Ionicons name={icon} size={21} color={colors.primary} /></View>
       <Text numberOfLines={1} style={[styles.label, { color: colors.text }]}>{label}</Text>
       {value ? <Text numberOfLines={1} style={[styles.value, { color: colors.textMuted }]}>{value}</Text> : null}
       {onPress ? <Ionicons name="chevron-forward" size={18} color={colors.textMuted} /> : null}
@@ -21,7 +22,7 @@ export function SettingsRow({ icon, label, value, onPress }: { icon: keyof typeo
       <View
         accessible
         accessibilityLabel={value ? `${label}, ${value}` : label}
-        style={[styles.row, { backgroundColor: colors.surface, borderColor: colors.border }]}
+        style={[styles.row, { borderColor: colors.border }]}
       >
         {content}
       </View>
@@ -36,7 +37,7 @@ export function SettingsRow({ icon, label, value, onPress }: { icon: keyof typeo
         Haptics.selectionAsync().catch(() => undefined);
         onPress();
       }}
-      style={[styles.row, { backgroundColor: colors.surface, borderColor: colors.border }]}
+      style={[styles.row, { borderColor: colors.border }]}
       pressedOpacity={0.75}
       scaleTo={0.99}
     >
@@ -46,8 +47,8 @@ export function SettingsRow({ icon, label, value, onPress }: { icon: keyof typeo
 }
 
 const styles = StyleSheet.create({
-  row: { width: '100%', minHeight: 62, borderBottomWidth: StyleSheet.hairlineWidth, paddingHorizontal: 14, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 12 },
-  icon: { width: 34, height: 34, flexShrink: 0, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
-  label: { flex: 1, minWidth: 0, fontSize: 15, fontWeight: '500' },
-  value: { maxWidth: '42%', flexShrink: 1, fontSize: 14, textAlign: 'right' },
+  row: { width: '100%', minHeight: 58, borderBottomWidth: StyleSheet.hairlineWidth, paddingHorizontal: 4, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  icon: { width: 28, height: 40, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center' },
+  label: { ...typography.itemTitle, flex: 1, minWidth: 0 },
+  value: { ...typography.caption, maxWidth: '42%', flexShrink: 1, textAlign: 'right' },
 });

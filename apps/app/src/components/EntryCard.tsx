@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { memo } from 'react';
-import { Image, Platform, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
@@ -34,7 +34,7 @@ export const EntryCard = memo(function EntryCard({ entry }: { entry: Entry }) {
         )}
         <View style={styles.content}>
           <View style={styles.metaRow}>
-            <View style={[styles.kindPill, { backgroundColor: colors.primarySoft }]}><Text style={[styles.kind, { color: colors.primary }]}>{ENTRY_LABEL[entry.kind]}</Text></View>
+            <Text style={[styles.kind, { color: colors.primary }]}>{ENTRY_LABEL[entry.kind]}</Text>
             <Text style={[styles.date, { color: colors.textMuted }]}>{entry.entryDate}</Text>
           </View>
           <Text numberOfLines={1} style={[styles.title, { color: colors.text }]}>{entry.title}</Text>
@@ -53,24 +53,18 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     minWidth: 0,
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingVertical: 14,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 13,
-    ...Platform.select({
-      web: { boxShadow: '0 4px 10px rgba(18, 32, 25, 0.055)' },
-      default: { shadowColor: '#122019', shadowOpacity: 0.055, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 1 },
-    }),
   },
-  media: { flexShrink: 0, borderRadius: 13 },
+  media: { flexShrink: 0, borderRadius: 8 },
   diaryMedia: { width: 78, height: 78 },
   posterMedia: { width: 62, height: 88 },
   placeholder: { alignItems: 'center', justifyContent: 'center' },
   content: { flex: 1, minWidth: 0, gap: 4 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  kindPill: { minHeight: 23, borderRadius: 8, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center' },
   kind: typography.overline,
   date: typography.caption,
   title: typography.sectionTitle,

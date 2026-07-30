@@ -113,9 +113,9 @@ export function SettingsScreen() {
           <SettingsRow icon="document-attach-outline" label="백업 가져오기" value={busy === 'import' ? '가져오는 중' : undefined} onPress={busy ? undefined : () => setConfirmImport(true)} />
           <SettingsRow icon="trash-outline" label="최근 삭제" value={deletedCount > 0 ? `${deletedCount}개` : '비어 있음'} onPress={() => router.push('/settings/trash')} />
         </View>
-        <View style={[styles.dataNote, { backgroundColor: colors.primarySoft }]}>
-          <View style={styles.dataNoteHeader}><Ionicons name="shield-checkmark-outline" size={18} color={colors.primary} /><Text style={[styles.dataNoteTitle, { color: colors.text }]}>사진과 최근 삭제 기록까지 한 파일에</Text></View>
-          <Text style={[styles.dataNoteBody, { color: colors.textMuted }]}>백업 파일은 기기 밖에 직접 보관해야 앱 삭제나 기기 분실 뒤에도 가져올 수 있어요.</Text>
+        <View style={[styles.dataNote, { borderTopColor: colors.border }]}>
+          <Text style={[styles.dataNoteTitle, { color: colors.text }]}>백업에는 사진과 최근 삭제 기록도 포함돼요</Text>
+          <Text style={[styles.dataNoteBody, { color: colors.textMuted }]}>기기 밖에 보관해야 앱을 삭제하거나 휴대폰을 바꿔도 다시 가져올 수 있어요.</Text>
           <Text style={[styles.lastExport, { color: colors.primary }]}>{lastExportedAt ? `마지막 내보내기 ${formatExportedAt(lastExportedAt)}` : '아직 내보낸 백업 파일이 없어요.'}</Text>
         </View>
         {status ? <View accessibilityLiveRegion="polite" style={[styles.status, { backgroundColor: status.tone === 'success' ? colors.primarySoft : `${colors.tint}18`, borderColor: status.tone === 'success' ? colors.primary : colors.tint }]}><Ionicons name={status.tone === 'success' ? 'checkmark-circle' : 'alert-circle'} size={20} color={status.tone === 'success' ? colors.primary : colors.tint} /><Text style={[styles.statusText, { color: colors.text }]}>{status.message}</Text><AnimatedPressable accessibilityRole="button" accessibilityLabel="상태 메시지 닫기" onPress={() => setStatus(null)} style={styles.statusClose} pressedOpacity={0.6} scaleTo={0.9}><Ionicons name="close" size={18} color={colors.textMuted} /></AnimatedPressable></View> : null}
@@ -148,10 +148,9 @@ function formatCompactDate(value: string) {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   content: { paddingBottom: 32 },
-  group: { marginHorizontal: 16, borderWidth: 1, borderRadius: 18, overflow: 'hidden' },
-  section: { ...typography.caption, marginHorizontal: 21, marginBottom: 8, marginTop: 20 },
-  dataNote: { marginHorizontal: 16, marginTop: 12, borderRadius: 14, paddingHorizontal: 14, paddingVertical: 13, gap: 5 },
-  dataNoteHeader: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  group: { marginHorizontal: 18, borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth },
+  section: { ...typography.caption, marginHorizontal: 22, marginBottom: 7, marginTop: 24 },
+  dataNote: { marginHorizontal: 18, marginTop: 18, borderTopWidth: StyleSheet.hairlineWidth, paddingTop: 14, gap: 5 },
   dataNoteTitle: typography.itemTitle,
   dataNoteBody: typography.caption,
   lastExport: { ...typography.overline, marginTop: 2 },

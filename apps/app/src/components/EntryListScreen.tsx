@@ -59,6 +59,31 @@ export function EntryListScreen({ kind }: { kind: EntryKind }) {
   const entries = entriesFor(kind);
   const loading = loadingFor(kind);
   const error = errorFor(kind);
+  const emptyOverline = error
+    ? '불러오기 오류'
+    : query.trim()
+      ? '검색'
+      : kind === 'diary'
+        ? new Intl.DateTimeFormat('ko-KR', { month: 'long', day: 'numeric', weekday: 'long' }).format(new Date())
+        : `${ENTRY_LABEL[kind]} 기록`;
+  const emptyTitle = error
+    ? error
+    : query.trim()
+      ? '검색 결과가 없어요'
+      : kind === 'diary'
+        ? '오늘의 순간을 남겨보세요'
+        : kind === 'movie'
+          ? '첫 영화를 기록해보세요'
+          : '첫 책을 기록해보세요';
+  const emptyBody = error
+    ? '잠시 후 다시 시도해주세요.'
+    : query.trim()
+      ? '제목이나 내용에 들어간 다른 단어로 찾아보세요.'
+      : kind === 'diary'
+        ? '지금 기억하고 싶은 일과 마음을 짧게 적어도 충분해요.'
+        : kind === 'movie'
+          ? '보고 난 뒤 남은 장면과 감상을 기록해보세요.'
+          : '읽고 난 뒤 붙잡아두고 싶은 문장과 생각을 기록해보세요.';
 
   const openCreate = () => {
     if (kind === 'diary') router.push('/entry/new?kind=diary');
@@ -123,7 +148,7 @@ export function EntryListScreen({ kind }: { kind: EntryKind }) {
           windowSize={7}
           removeClippedSubviews={Platform.OS === 'android'}
           contentContainerStyle={[styles.list, visibleEntries.length === 0 && styles.emptyList]}
-          ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+          ItemSeparatorComponent={() => null}
           renderItem={({ item }) => <EntryCard entry={item} />}
           refreshing={loading}
           onRefresh={() => refresh(kind)}
@@ -131,9 +156,9 @@ export function EntryListScreen({ kind }: { kind: EntryKind }) {
           ListHeaderComponentStyle={styles.listHeaderContainer}
           ListEmptyComponent={
             <View style={styles.empty}>
-              <View style={[styles.emptyIcon, { backgroundColor: colors.primarySoft }]}><Ionicons name={kind === 'diary' ? 'leaf-outline' : kind === 'movie' ? 'film-outline' : 'book-outline'} size={42} color={colors.primary} /></View>
-              <Text style={[styles.emptyTitle, { color: colors.text }]}>{error ?? (query.trim() ? '검색 결과가 없어요' : `첫 번째 ${ENTRY_LABEL[kind]}를 남겨보세요`)}</Text>
-              <Text style={[styles.emptyBody, { color: colors.textMuted }]}>{error ? '잠시 후 다시 시도해주세요.' : query.trim() ? '다른 검색어로 기억을 찾아보세요.' : <>오늘의 마음과 감상을 모으면{`\n`}나만의 기억 나무가 자라요.</>}</Text>
+              <Text style={[styles.emptyOverline, { color: colors.primary }]}>{emptyOverline}</Text>
+              <Text style={[styles.emptyTitle, { color: colors.text }]}>{emptyTitle}</Text>
+              <Text style={[styles.emptyBody, { color: colors.textMuted }]}>{emptyBody}</Text>
               {error ? <AnimatedPressable onPress={() => refresh(kind)} style={[styles.retry, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={styles.retryText}>다시 시도</Text></AnimatedPressable> : null}
               {!error && !query.trim() ? <AnimatedPressable accessibilityRole="button" accessibilityLabel={`첫 ${ENTRY_LABEL[kind]} 남기기`} onPress={openCreateWithFeedback} style={[styles.emptyAction, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Ionicons name="add" size={20} color="#fff" /><Text style={styles.emptyActionText}>첫 {ENTRY_LABEL[kind]} 남기기</Text></AnimatedPressable> : null}
             </View>
@@ -156,7 +181,7 @@ const styles = StyleSheet.create({
   clearSearch: { width: 40, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' },
   sortButton: { height: 46, borderWidth: 1, borderRadius: 14, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 4 },
   sortText: typography.caption,
-  list: { padding: 16, paddingBottom: 120 },
+  list: { paddingHorizontal: 18, paddingTop: 10, paddingBottom: 120 },
   listHeaderContainer: { paddingBottom: 12 },
   headerContent: { gap: 9 },
   listHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
@@ -166,13 +191,13 @@ const styles = StyleSheet.create({
   count: typography.label,
   orderHint: typography.caption,
   emptyList: { flexGrow: 1 },
-  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 80 },
-  emptyIcon: { width: 84, height: 84, borderRadius: 42, alignItems: 'center', justifyContent: 'center', marginBottom: 20 },
+  empty: { flex: 1, alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 6, paddingBottom: 96 },
+  emptyOverline: { ...typography.overline, marginBottom: 9 },
   emptyTitle: { ...typography.sectionTitle, marginBottom: 8 },
-  emptyBody: { ...typography.body, textAlign: 'center' },
-  emptyAction: { minHeight: 48, marginTop: 22, borderRadius: 16, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  emptyBody: { ...typography.body, maxWidth: 310 },
+  emptyAction: { minHeight: 46, marginTop: 22, borderRadius: 10, paddingHorizontal: 17, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   emptyActionText: { ...typography.button, color: '#fff' },
-  retry: { marginTop: 18, minHeight: 44, paddingHorizontal: 20, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  retry: { marginTop: 18, minHeight: 44, paddingHorizontal: 18, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   retryText: { ...typography.button, color: '#fff' },
   fab: {
     position: 'absolute',

@@ -40,7 +40,7 @@ export function AppBar({ title, back = false, close = false, right, onBack }: Pr
             accessibilityLabel={close ? '닫기' : '뒤로 가기'}
             hitSlop={10}
             onPress={() => { Haptics.selectionAsync().catch(() => undefined); if (onBack) onBack(); else goBackOrHome(router); }}
-            style={[styles.leading, { backgroundColor: colors.surface, borderColor: colors.border }]}
+            style={styles.leading}
             pressedOpacity={0.62}
             scaleTo={0.96}>
             <Ionicons name={close ? 'close' : 'chevron-back'} size={close ? 25 : 28} color={colors.text} />
@@ -56,7 +56,7 @@ export function AppBar({ title, back = false, close = false, right, onBack }: Pr
 export function AppBarAction({ icon, label, onPress }: { icon: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void }) {
   const { colors } = useAppTheme();
   return (
-    <AnimatedPressable accessibilityRole="button" accessibilityLabel={label} hitSlop={8} onPress={() => { Haptics.selectionAsync().catch(() => undefined); onPress(); }} style={[styles.action, { backgroundColor: colors.surface, borderColor: colors.border }]} pressedOpacity={0.62} scaleTo={0.96}>
+    <AnimatedPressable accessibilityRole="button" accessibilityLabel={label} hitSlop={8} onPress={() => { Haptics.selectionAsync().catch(() => undefined); onPress(); }} style={styles.action} pressedOpacity={0.62} scaleTo={0.96}>
       <Ionicons name={icon} size={24} color={colors.text} />
     </AnimatedPressable>
   );
@@ -64,9 +64,9 @@ export function AppBarAction({ icon, label, onPress }: { icon: keyof typeof Ioni
 
 const styles = StyleSheet.create({
   root: { zIndex: 2, flexShrink: 0, borderBottomWidth: StyleSheet.hairlineWidth },
-  row: { height: APP_BAR_HEIGHT, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 16, gap: 8 },
-  leading: { width: 44, height: 44, flexShrink: 0, borderRadius: 22, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center', marginLeft: -4 },
+  row: { height: APP_BAR_HEIGHT, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 14, gap: 4 },
+  leading: { width: 44, height: 44, flexShrink: 0, alignItems: 'center', justifyContent: 'center', marginLeft: -8 },
   title: { ...typography.screenTitle, flex: 1, minWidth: 0 },
-  actions: { minWidth: 44, flexShrink: 0, alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end', gap: 4 },
-  action: { width: 44, height: 44, borderRadius: 22, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center' },
+  actions: { minWidth: 44, flexShrink: 0, alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' },
+  action: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
 });

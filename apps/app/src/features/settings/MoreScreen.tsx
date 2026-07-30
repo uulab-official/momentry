@@ -41,17 +41,12 @@ export function MoreScreen() {
   return <View style={[styles.root, { backgroundColor: colors.background }]}>
     <AppBar title="전체" right={<AppBarAction icon="settings-outline" label="설정" onPress={() => router.push('/settings')} />} />
     <ScrollView ref={scrollRef} contentContainerStyle={styles.content}>
-      <View style={[styles.profile, { backgroundColor: colors.primary }]}>
-        <Text style={styles.eyebrow}>MOMENTRY</Text>
-        <Text style={styles.profileTitle}>나의 기억이 자라는 곳</Text>
-        <Text style={styles.profileBody}>일기와 영화, 책에서 만난 순간을{`\n`}오래 간직해보세요.</Text>
-      </View>
-      {entriesLoading && totalCount === 0 ? <MemoryStatsSkeleton /> : <View style={[styles.statsCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-        <View style={styles.statsHeader}><Text style={[styles.statsTitle, { color: colors.text }]}>기억 나무</Text><Text style={[styles.statsTotal, { color: colors.primary }]}>{totalCount}개</Text></View>
-        <View style={styles.statsRow}>{ENTRY_KINDS.map((kind, index) => <View key={kind} style={[styles.stat, index > 0 && { borderLeftColor: colors.border, borderLeftWidth: StyleSheet.hairlineWidth }]}><Ionicons name={kind === 'diary' ? 'sparkles-outline' : kind === 'movie' ? 'film-outline' : 'book-outline'} size={18} color={colors.primary} /><Text style={[styles.statValue, { color: colors.text }]}>{entriesFor(kind).length}</Text><Text style={[styles.statLabel, { color: colors.textMuted }]}>{ENTRY_LABEL[kind]}</Text></View>)}</View>
-        {recentEntry ? <AnimatedPressable accessibilityRole="button" accessibilityLabel={`최근 기록 ${recentEntry.title} 열기`} onPress={openRecentEntry} style={[styles.recent, { backgroundColor: colors.primarySoft }]} pressedOpacity={0.82} scaleTo={0.985}><View style={styles.recentText}><Text style={[styles.recentEyebrow, { color: colors.primary }]}>최근 기록</Text><Text numberOfLines={1} style={[styles.recentTitle, { color: colors.text }]}>{recentEntry.title}</Text><Text style={[styles.recentMeta, { color: colors.textMuted }]}>{ENTRY_LABEL[recentEntry.kind]} · {recentEntry.entryDate}</Text></View><Ionicons name="chevron-forward" size={18} color={colors.primary} /></AnimatedPressable> : <Text style={[styles.recentEmpty, { color: colors.textMuted }]}>첫 기록을 남기면 여기에서 다시 만날 수 있어요.</Text>}
+      {entriesLoading && totalCount === 0 ? <MemoryStatsSkeleton /> : <View style={[styles.summary, { borderColor: colors.border }]}>
+        <View style={styles.summaryHeader}><Text style={[styles.summaryTitle, { color: colors.text }]}>기록</Text><Text style={[styles.summaryTotal, { color: colors.text }]}>{totalCount}개</Text></View>
+        <Text style={[styles.breakdown, { color: colors.textMuted }]}>{ENTRY_KINDS.map((kind) => `${ENTRY_LABEL[kind]} ${entriesFor(kind).length}`).join('  ·  ')}</Text>
+        {recentEntry ? <AnimatedPressable accessibilityRole="button" accessibilityLabel={`최근 기록 ${recentEntry.title} 열기`} onPress={openRecentEntry} style={[styles.recent, { borderTopColor: colors.border }]} pressedOpacity={0.7} scaleTo={0.99}><View style={styles.recentText}><Text style={[styles.recentEyebrow, { color: colors.primary }]}>최근 기록</Text><Text numberOfLines={1} style={[styles.recentTitle, { color: colors.text }]}>{recentEntry.title}</Text><Text style={[styles.recentMeta, { color: colors.textMuted }]}>{ENTRY_LABEL[recentEntry.kind]} · {recentEntry.entryDate}</Text></View><Ionicons name="chevron-forward" size={18} color={colors.textMuted} /></AnimatedPressable> : <Text style={[styles.recentEmpty, { color: colors.textMuted }]}>아직 기록이 없어요.</Text>}
       </View>}
-      <View style={[styles.searchCard, { backgroundColor: colors.surface, borderColor: colors.border }]}><SettingsRow icon="search-outline" label="모든 기억 검색" value="일기·영화·책" onPress={() => router.push('/search')} /></View>
+      <View style={[styles.searchGroup, { borderColor: colors.border }]}><SettingsRow icon="search-outline" label="모든 기록 검색" value="일기·영화·책" onPress={() => router.push('/search')} /></View>
       <Text style={[styles.section, { color: colors.textMuted }]}>도움</Text>
       <View style={[styles.group, { borderColor: colors.border }]}><SettingsRow icon="notifications-outline" label="알림" onPress={() => router.push('/notifications')} /><SettingsRow icon="megaphone-outline" label="공지사항" onPress={() => router.push('/notice')} /><SettingsRow icon="help-circle-outline" label="자주 묻는 질문" onPress={() => router.push('/faq')} /><SettingsRow icon="chatbubble-ellipses-outline" label="문의하기" onPress={() => WebBrowser.openBrowserAsync('https://uulab.co.kr/contact/')} /></View>
       <Text style={[styles.section, { color: colors.textMuted }]}>앱 정보</Text>
@@ -71,14 +66,12 @@ function MemoryStatsSkeleton() {
   };
 
   return (
-    <View accessibilityLabel="기억 통계를 불러오는 중" style={[styles.statsCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-      <View style={styles.statsHeader}>
+    <View accessibilityLabel="기록 통계를 불러오는 중" style={[styles.summary, { borderColor: colors.border }]}>
+      <View style={styles.summaryHeader}>
         <ShimmerBlock {...blockProps} style={styles.statsSkeletonTitle} />
         <ShimmerBlock {...blockProps} style={styles.statsSkeletonCount} />
       </View>
-      <View style={styles.statsSkeletonRow}>
-        {[0, 1, 2].map((index) => <ShimmerBlock key={index} {...blockProps} style={styles.statsSkeletonItem} />)}
-      </View>
+      <ShimmerBlock {...blockProps} style={styles.statsSkeletonBreakdown} />
       <ShimmerBlock {...blockProps} style={styles.statsSkeletonRecent} />
     </View>
   );
@@ -86,31 +79,23 @@ function MemoryStatsSkeleton() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  content: { padding: 16, paddingBottom: 110 },
-  profile: { borderRadius: 24, padding: 22, marginBottom: 14 },
-  searchCard: { borderWidth: 1, borderRadius: 18, overflow: 'hidden', marginBottom: 8 },
-  statsCard: { borderWidth: 1, borderRadius: 20, padding: 16, marginBottom: 8 },
-  statsHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 },
-  statsTitle: typography.sectionTitle,
-  statsTotal: typography.label,
-  statsRow: { flexDirection: 'row', marginBottom: 14 },
-  stat: { flex: 1, alignItems: 'center', gap: 3 },
-  statValue: { ...typography.screenTitle, fontVariant: ['tabular-nums'] },
-  statLabel: typography.caption,
-  recent: { borderRadius: 14, minHeight: 62, paddingHorizontal: 13, paddingVertical: 10, flexDirection: 'row', alignItems: 'center' },
+  content: { paddingHorizontal: 18, paddingTop: 22, paddingBottom: 110 },
+  summary: { borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 18, marginBottom: 24 },
+  summaryHeader: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 6 },
+  summaryTitle: typography.sectionTitle,
+  summaryTotal: { ...typography.screenTitle, fontVariant: ['tabular-nums'] },
+  breakdown: typography.caption,
+  recent: { borderTopWidth: StyleSheet.hairlineWidth, minHeight: 68, marginTop: 16, paddingTop: 14, flexDirection: 'row', alignItems: 'center' },
   recentText: { flex: 1, minWidth: 0, gap: 2 },
   recentEyebrow: typography.overline,
   recentTitle: typography.itemTitle,
   recentMeta: typography.caption,
-  recentEmpty: { fontSize: 13, lineHeight: 19, paddingHorizontal: 4 },
+  recentEmpty: { ...typography.caption, marginTop: 16 },
   statsSkeletonTitle: { width: 68, height: 16, borderRadius: 8 },
   statsSkeletonCount: { width: 38, height: 14, borderRadius: 7 },
-  statsSkeletonRow: { height: 57, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 14 },
-  statsSkeletonItem: { width: 44, height: 44, borderRadius: 14 },
-  statsSkeletonRecent: { minHeight: 62, borderRadius: 14 },
-  eyebrow: { ...typography.overline, color: 'rgba(255,255,255,0.78)', letterSpacing: 1.4 },
-  profileTitle: { ...typography.screenTitle, color: '#fff', marginTop: 10 },
-  profileBody: { ...typography.body, color: 'rgba(255,255,255,0.78)', marginTop: 8 },
-  section: { ...typography.caption, marginLeft: 5, marginBottom: 8, marginTop: 12 },
-  group: { borderWidth: 1, borderRadius: 18, overflow: 'hidden' },
+  statsSkeletonBreakdown: { width: 156, height: 13, borderRadius: 6, marginBottom: 18 },
+  statsSkeletonRecent: { minHeight: 54, borderRadius: 8 },
+  searchGroup: { borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth, marginBottom: 8 },
+  section: { ...typography.caption, marginHorizontal: 4, marginBottom: 7, marginTop: 24 },
+  group: { borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth },
 });
