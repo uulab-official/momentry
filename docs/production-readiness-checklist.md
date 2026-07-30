@@ -202,6 +202,16 @@
 - [x] 서버 재조회에서 runtime `1.0.0`, commit `f98c739`, rollback 아님 확인
 - [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary
 
+### 2026-07-30 텍스트 기록·알림 OTA
+
+- [x] 사진 없는 일기 목록·상세·로딩의 장식 면 제거 및 텍스트 위계 확인
+- [x] 알림 시간 편집 전·후 저장 액션과 권한 없는 비활성 상태 확인
+- [x] 390×844 및 320×700 회귀, 320px 가로 overflow 없음
+- [x] OTA용 Expo Doctor 19/19 및 native baseline guard 5개 파일 통과
+- [x] production 그룹 `ca07c560-7228-44e8-8fb5-bd6d4fe1e980`에 iOS·Android 게시
+- [x] 서버 재조회에서 runtime `1.0.0`, commit `126da48`, rollback 아님 확인
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary
+
 관련 문서:
 
 - [`product-intent.md`](product-intent.md)

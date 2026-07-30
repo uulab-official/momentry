@@ -168,6 +168,7 @@
 
 ### 최근 OTA 기록
 
+- `ca07c560-7228-44e8-8fb5-bd6d4fe1e980` — 사진 없는 일기의 목록·상세·로딩을 텍스트 중심으로 정리하고 알림 시간 저장 위계 개선 (iOS·Android, runtime `1.0.0`)
 - `9882131a-4f6a-4cef-b8cd-7d4dcc6a8bd8` — 최근 삭제·FAQ·공지·앱 정보 화면을 평평하고 탐색 가능한 구조로 개선, 공지 escape 노출 수정 (iOS·Android, runtime `1.0.0`)
 - `ce26cf34-54fa-4696-bc59-2cae23f2a286` — 작성·발견·통합 검색·알림을 평평한 편집형 UI로 고도화하고 발견 안내 누락 수정 (iOS·Android, runtime `1.0.0`)
 - `db0f5b3c-09c6-4217-a758-ada505dd35bb` — 차분한 기록 중심 UI와 Pretendard 표준화, 정책 줄바꿈 수정 (iOS·Android, runtime `1.0.0`)

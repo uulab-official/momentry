@@ -207,3 +207,16 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - production OTA: `9882131a-4f6a-4cef-b8cd-7d4dcc6a8bd8` — iOS `019fb1c7-d79a-76b4-9c75-ce8b1f8de61f`, Android `019fb1c7-d79a-7dda-b222-f803e3318f88`, runtime `1.0.0`, commit `f98c739`
 - 서버 재조회: iOS·Android 모두 rollback 아님, branch `production`, commit hash 일치
 - canary: 연결된 설치 바이너리가 없어 실제 스토어 바이너리 재실행 적용 확인은 후속 실기기 QA로 유지
+
+## 2026-07-30 텍스트 기록·알림 시간 디자인 고도화
+
+- 변경 분류: `ota` — 기록 목록·상세·스켈레톤과 알림 화면의 TypeScript 레이아웃·로컬 상태만 변경
+- 일기 목록: 사진 없는 행의 장식용 썸네일을 제거하고 제목·본문이 전체 폭을 사용하도록 개선
+- 일기 상세: 사진 없는 기록의 큰 sparkle hero를 제거해 날짜·제목·본문이 앱바 바로 아래에서 시작
+- 로딩: 일기 스켈레톤을 실제 평평한 텍스트 행 구조와 일치시키고 영화·책 포스터 자리만 유지
+- 알림: 시간과 안내를 한 schedule section으로 묶고 값이 바뀔 때만 전체 폭 저장 액션 표시
+- 회귀: 390×844 및 320×700 목록·상세·알림 확인, 320px 세 화면 모두 가로 overflow 없음, 실제 일기 생성→저장→상세와 시간 편집 상태 통과
+- 검증: TypeScript, ESLint, OTA용 Expo Doctor 19/19, native baseline guard 5개 파일, production iOS·Android·Web export 통과
+- production OTA: `ca07c560-7228-44e8-8fb5-bd6d4fe1e980` — iOS `019fb1f6-0b0a-7456-bfee-89fd509a88da`, Android `019fb1f6-0b0a-7dcd-b28f-38fb5120628f`, runtime `1.0.0`, commit `126da48`
+- 서버 재조회: iOS·Android 모두 rollback 아님, branch `production`, commit hash 일치
+- canary: 부팅된 iOS 시뮬레이터 2대와 연결 Android 에뮬레이터에 `kr.co.uulab.momentry` 설치본이 없어 후속 실기기 QA로 유지
