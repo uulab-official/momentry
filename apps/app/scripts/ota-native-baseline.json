@@ -1,0 +1,19 @@
+{
+  "runtimeVersion": "1.0.0",
+  "buildCode": "26072302",
+  "packageNativeConfigSha256": "9bddf75c81eb313b75ce25d448c84d5fc067abe036da9a7a5d11507f0b4c377e",
+  "files": {
+    ".env.example": "f8959dbe427847e6dcdeacc6526269b1c4d6715d53d4721f0675e916577422c4",
+    "app.base.json": "d4eeac29431d938916f8fabe0b705c4f5e4e1edc68c6e12b97baeab499d35891",
+    "app.config.js": "b87a24becda4ef786542954af2c36cdfa30be75e17462d5252ad3a231a13519e",
+    "assets/images/android-icon-background.png": "fb139c2dee362ebf2070e23b96da6fc0d43f8492de38b8af1fd7223e19b5861d",
+    "assets/images/android-icon-foreground.png": "d7e312a70993c3cf3ff7278902a7479a318ea980e6e8a21327dd178474e8c7e2",
+    "assets/images/android-icon-monochrome.png": "6371fc2c12e33ad2215a86c281db3d682a81bebe7c957a842c13b8bf00cceb83",
+    "assets/images/favicon.png": "83faf45b1f4570c68152d5362021b6ccf2b714bcaa29194fba1417e57bde18ad",
+    "assets/images/icon.png": "846dfd714c27f4dc8f97d9262c7534d3f9e23d0ffa051d09ee3ef8656eab743e",
+    "assets/images/splash-icon.png": "5f4c0a732b6325bf4071d9124d2ae67e037cb24fcc9c482ef82bea742109a3b8",
+    "assets/images/splash-mark.png": "d7e312a70993c3cf3ff7278902a7479a318ea980e6e8a21327dd178474e8c7e2",
+    "eas.json": "fff57b76d7d19893f35e363ccc4bf1bbe42f9e6d411bfb53b467050c1c65f6d2",
+    "package-lock.json": "37d8c7d43e9d2408c96959aad38b9bcd74012778016c6c503192deb21c2199f6"
+  }
+}

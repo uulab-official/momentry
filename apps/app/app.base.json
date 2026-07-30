@@ -1,0 +1,131 @@
+{
+  "expo": {
+    "name": "모멘트리",
+    "slug": "momentry",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "momentry",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#FBF7EE",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "NEVER",
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/a8b8ccd6-0425-4ace-a84a-5c4d7f8e0d25"
+    },
+    "ios": {
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "kr.co.uulab.momentry",
+      "buildNumber": "26072302",
+      "supportsTablet": false,
+      "associatedDomains": [
+        "applinks:momentry.uulab.co.kr"
+      ],
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "기억에 함께 남길 사진을 선택하기 위해 사진 라이브러리에 접근합니다.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      }
+    },
+    "android": {
+      "package": "kr.co.uulab.momentry",
+      "versionCode": 26072302,
+      "adaptiveIcon": {
+        "backgroundColor": "#FBF7EE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "READ_MEDIA_IMAGES",
+        "POST_NOTIFICATIONS"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "momentry.uulab.co.kr"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "headers": {
+            "Cross-Origin-Embedder-Policy": "credentialless",
+            "Cross-Origin-Opener-Policy": "same-origin"
+          }
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-mark.png",
+          "imageWidth": 96,
+          "resizeMode": "contain",
+          "backgroundColor": "#FBF7EE"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 24,
+            "extraMavenRepos": [
+              "https://devrepo.kakao.com/nexus/content/groups/public/"
+            ]
+          }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "기억에 함께 남길 사진을 선택하기 위해 사진 라이브러리에 접근합니다.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#244D3F",
+          "defaultChannel": "momentry",
+          "enableBackgroundRemoteNotifications": true
+        }
+      ],
+      "expo-updates",
+      "expo-web-browser",
+      "expo-sqlite",
+      "expo-sharing"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a8b8ccd6-0425-4ace-a84a-5c4d7f8e0d25"
+      }
+    },
+    "owner": "uulab"
+  }
+}

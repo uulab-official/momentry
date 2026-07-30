@@ -1,0 +1,12 @@
+Momentry is a personal journal for everyday moments and the stories you discover in movies and books.
+
+Write a diary entry, rate a movie while the feeling is still fresh, or save a reading note. As moments collect, your own memory tree grows.
+
+Features
+- Photo diary entries
+- Movie discovery or manual entry, five-star ratings, and notes
+- Book discovery or manual entry, five-star ratings, and reading notes
+- System, light, and dark themes
+- Local-first journaling with no account required
+
+Entries are stored on your device by default.

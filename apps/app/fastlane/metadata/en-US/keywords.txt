@@ -1,0 +1,1 @@
+diary,movie,book,reading,journal,review,memory,notes,local,private

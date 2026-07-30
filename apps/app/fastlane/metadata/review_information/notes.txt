@@ -1,0 +1,9 @@
+No reviewer account is required. Momentry is a local-first personal journal and all user-created entries and selected photos remain in the app's local storage.
+
+Suggested review path:
+1. Open the Diary tab and create a diary entry with the floating add button.
+2. Open the Movies tab, add a movie directly, give it a star rating, and save a short note.
+3. Open the Books tab and add a reading note.
+4. Open the More tab to review theme settings, FAQ, privacy policy, terms, and app information.
+
+Photo Library permission is requested only when the reviewer explicitly chooses to attach a photo to an entry. The app does not require sign-in, contain purchases or subscriptions, display ads, or collect analytics. Movie and book search are optional conveniences; entries can always be created directly without a search provider.
