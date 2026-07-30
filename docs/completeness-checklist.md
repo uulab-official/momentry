@@ -168,6 +168,7 @@
 
 ### 최근 OTA 기록
 
+- `db0f5b3c-09c6-4217-a758-ada505dd35bb` — 차분한 기록 중심 UI와 Pretendard 표준화, 정책 줄바꿈 수정 (iOS·Android, runtime `1.0.0`)
 - `f62e60e3-978d-4572-bb2f-7007001a74ee` — 글자 크기와 굵기를 낮춰 읽기 편하게 개선 (iOS·Android, runtime `1.0.0`)
 - `c125a02f-1a16-4c31-bb63-ed99056b2ec9` — 앱바와 하단탭 safe-area 및 가로 정렬 안정화 (iOS·Android, runtime `1.0.0`)
 - `bba4c146-fc75-4bdb-9e6c-b43c36397b16` — 대화상자와 작성 흐름 애니메이션 개선 (iOS·Android, runtime `1.0.0`)

@@ -172,3 +172,14 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - Web 회귀: 390×844 홈·영화·전체·설정에서 글자 잘림·가로 행·앱바·하단 탭 확인
 - 검증: TypeScript와 `git diff --check` 통과. `npm run ota:check` 및 production export는 게시 직전 재실행
 - production OTA: `f62e60e3-978d-4572-bb2f-7007001a74ee` — iOS·Android, runtime `1.0.0`, commit `d842ad4`
+
+## 2026-07-30 차분한 기록 중심 UI
+
+- 변경 분류: `ota` — 앱 코드·폰트 자산·문서만 변경하고 native config, package, lockfile, runtime은 유지
+- 디자인: 홍보형 히어로·3등분 통계·장식용 아이콘 원·과도한 라운드 카드를 제거하고 날짜, 기록 수, 평평한 목록 위계로 재구성
+- 타이포그래피: UULab 표준 Pretendard 정적 9개 웨이트와 OFL 라이선스를 포함하고 실제 화면은 400·500·600·700만 사용
+- 버그 수정: 개인정보 처리방침과 이용약관에서 `\n\n`이 문자 그대로 보이던 JSX 줄바꿈 오류 수정
+- Web 회귀: 390×844 홈·영화·전체·설정·개인정보 처리방침, 320×568 전체·설정 확인. 320px 화면 가로 overflow 없음
+- 검증: `npm run ota:check` 통과 — TypeScript, ESLint, OTA용 Expo Doctor 19/19, 공개 Expo config, native baseline guard
+- 참고: 일반 Expo Doctor의 SDK 57 패치 권고 12건은 현재 스토어 바이너리 기준선과 분리해 다음 바이너리에서 검증
+- production OTA: `db0f5b3c-09c6-4217-a758-ada505dd35bb` — iOS·Android, runtime `1.0.0`, commit `3836b2f`
