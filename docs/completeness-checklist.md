@@ -218,3 +218,13 @@
 - [x] 렌더링된 버튼·탭 44px 이상, 글꼴 굵기 400/500 확인
 - [x] production runtime `1.0.0`, commit `efcab4b`, iOS·Android OTA 서버 재조회
 - [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 최신 OTA canary
+
+### 2026-08-01 작은 화면 검색 완성도
+
+- [x] 320px 목록 검색에서 입력·지우기·정렬 액션이 서로 겹치지 않음
+- [x] 검색어가 있는 결과·빈 결과 상태에서 지우기 액션이 보이고 동작함
+- [x] 목록 검색과 통합 검색의 지우기 액션이 실제 44×44px 이상
+- [x] 390×844 및 320×693 핵심·지원·검색·책 기록 화면 회귀
+- [x] OTA용 Expo Doctor 19/19, native baseline guard 2개 파일, release audit
+- [x] production runtime `1.0.0`, commit `7b8e6e4`, iOS·Android OTA 서버 재조회
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 최신 OTA canary

@@ -238,3 +238,13 @@
 - [x] 서버 재조회에서 commit `efcab4b`, branch `production`, rollback 아님 확인
 - [x] 선행 중복 그룹 `2beca424-0af5-4445-bca4-5e26be299c10`도 동일 commit/runtime이며 기능 차이 없음 확인
 - [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary
+
+### 2026-08-01 작은 화면 검색 OTA
+
+- [x] 320px 목록 검색의 입력·지우기·정렬 겹침 제거
+- [x] 목록 검색과 통합 검색의 지우기 액션을 44×44px로 표준화
+- [x] 390×844·320×693 핵심 화면과 검색 결과·빈 결과 회귀
+- [x] OTA용 Expo Doctor 19/19, native baseline guard 2개 파일, release audit 통과
+- [x] production 그룹 `dacb41a7-6755-4e17-a215-c7562d96881d`에 runtime `1.0.0` iOS·Android 게시
+- [x] 서버 재조회에서 commit `7b8e6e4`, branch `production`, rollback 아님 확인
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary

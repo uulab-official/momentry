@@ -244,3 +244,15 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - production 최신 OTA: `05c93e6e-efed-4245-bf60-439e121285f8` — iOS `019fbdad-fe24-75ea-97c7-aaaa0db8bfcd`, Android `019fbdad-fe24-7332-bb3d-690fb605615d`, runtime `1.0.0`, commit `efcab4b`
 - 게시 프로세스 종료 감지 경합으로 동일 소스의 선행 그룹 `2beca424-0af5-4445-bca4-5e26be299c10`도 생성됨. 두 그룹 모두 같은 commit/runtime의 rollback 아닌 업데이트이며 최신 그룹을 production 기준으로 사용
 - canary: 부팅된 iOS 시뮬레이터 3대에 앱 설치본이 없고 연결 Android 기기도 없어 설치 바이너리 재실행 확인은 후속 실기기 QA로 유지
+
+## 2026-08-01 작은 화면 검색 디자인 고도화
+
+- 변경 분류: `ota` — 기록 목록·통합 검색의 TypeScript 스타일만 변경, 네이티브 설정·의존성·runtime 변경 없음
+- 레이아웃: 320px에서 검색어 입력 후 지우기 액션이 정렬 버튼과 겹치던 flex 최소 너비 문제를 제거
+- 접근성: 목록 검색과 통합 검색의 지우기 액션을 실제 44×44px 터치 영역으로 통일
+- 회귀: 390×844 홈·알림·더보기·FAQ·공지·책 목록, 320×693 검색 결과·빈 결과·통합 검색·작성·상세·사진 뷰어 확인
+- 검증: TypeScript, ESLint, OTA용 Expo Doctor 19/19, native baseline guard 2개 파일, release audit 통과
+- 일반 Expo Doctor: SDK 57 패치 권장 버전 12건으로 19/20. 현재 스토어 바이너리 기준선과 분리해 다음 바이너리에서 검증
+- production OTA: `dacb41a7-6755-4e17-a215-c7562d96881d` — iOS `019fbddb-3801-772c-bdd9-426f4be3ca36`, Android `019fbddb-3801-7584-b8da-68224a8beb83`, runtime `1.0.0`, commit `7b8e6e4`
+- 서버 재조회: iOS·Android 모두 branch `production`, rollback 아님, commit hash 일치
+- canary: 부팅된 iOS 시뮬레이터 3대에 앱 설치본이 없고 연결 Android 기기도 없어 설치 바이너리 재실행 확인은 후속 실기기 QA로 유지
