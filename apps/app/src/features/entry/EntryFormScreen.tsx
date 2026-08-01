@@ -272,9 +272,9 @@ export function EntryFormScreen() {
     <KeyboardAvoidingView style={[styles.root, { backgroundColor: colors.background }]} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <AppBar title={`${ENTRY_LABEL[kind]} ${editingId ? '수정' : '기록'}`} close onBack={requestBack} />
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: 116 + insets.bottom }]} keyboardShouldPersistTaps="handled">
-        <View>
-          <AnimatedPressable accessibilityRole="button" accessibilityLabel={imageUri ? '사진 바꾸기' : '사진 선택'} accessibilityState={{ selected: Boolean(imageUri) }} onPress={pickImage} style={[styles.imagePicker, imageUri ? styles.imagePickerFilled : styles.imagePickerEmpty, { backgroundColor: imageUri ? colors.surfaceMuted : colors.background, borderColor: colors.border }]} pressedOpacity={0.86} scaleTo={0.99}>
-            {imageUri ? <Image source={{ uri: imageUri }} style={StyleSheet.absoluteFill} resizeMode="cover" /> : <><Ionicons name="image-outline" size={22} color={colors.primary} /><View style={styles.imagePrompt}><Text style={[styles.imagePromptTitle, { color: colors.text }]}>사진 추가</Text><Text style={[styles.imagePromptBody, { color: colors.textMuted }]}>이 순간을 더 선명하게 남겨요</Text></View><Ionicons name="chevron-forward" size={18} color={colors.textMuted} /></>}
+        <View style={imageUri && kind !== 'diary' ? styles.posterControl : undefined}>
+          <AnimatedPressable accessibilityRole="button" accessibilityLabel={imageUri ? '사진 바꾸기' : '사진 선택'} accessibilityState={{ selected: Boolean(imageUri) }} onPress={pickImage} style={[styles.imagePicker, imageUri ? styles.imagePickerFilled : styles.imagePickerEmpty, imageUri && kind !== 'diary' ? styles.posterPicker : undefined, { backgroundColor: imageUri ? colors.surfaceMuted : colors.background, borderColor: colors.border }]} pressedOpacity={0.86} scaleTo={0.99}>
+            {imageUri ? <Image source={{ uri: imageUri }} style={StyleSheet.absoluteFill} resizeMode={kind === 'diary' ? 'cover' : 'contain'} /> : <><Ionicons name="image-outline" size={22} color={colors.primary} /><View style={styles.imagePrompt}><Text style={[styles.imagePromptTitle, { color: colors.text }]}>사진 추가</Text><Text style={[styles.imagePromptBody, { color: colors.textMuted }]}>이 순간을 더 선명하게 남겨요</Text></View><Ionicons name="chevron-forward" size={18} color={colors.textMuted} /></>}
           </AnimatedPressable>
           {imageUri ? <AnimatedPressable accessibilityRole="button" accessibilityLabel="사진 제거" onPress={() => { Haptics.selectionAsync().catch(() => undefined); setImageUri(''); }} style={[styles.removeImage, { backgroundColor: colors.surface }]} pressedOpacity={0.72} scaleTo={0.9}><Ionicons name="close" size={20} color={colors.text} /></AnimatedPressable> : null}
         </View>
@@ -378,6 +378,8 @@ const styles = StyleSheet.create({
   imagePicker: { overflow: 'hidden', flexDirection: 'row', alignItems: 'center' },
   imagePickerEmpty: { minHeight: 64, borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth, paddingHorizontal: 2, gap: 12 },
   imagePickerFilled: { height: 200, borderRadius: 12, borderWidth: 1, justifyContent: 'center' },
+  posterControl: { width: 148, alignSelf: 'center' },
+  posterPicker: { width: '100%' },
   imagePrompt: { flex: 1, gap: 2 },
   imagePromptTitle: typography.label,
   imagePromptBody: typography.caption,
