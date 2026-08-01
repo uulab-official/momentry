@@ -90,8 +90,8 @@ export function AllEntriesSearchScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   searchBox: { height: 48, marginHorizontal: 18, marginTop: 4, marginBottom: 10, borderBottomWidth: 1.5, flexDirection: 'row', alignItems: 'center', gap: 9 },
-  searchInput: { ...typography.body, flex: 1, height: '100%' },
-  clearSearch: { width: 40, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' },
+  searchInput: { ...typography.body, flex: 1, minWidth: 0, height: '100%' },
+  clearSearch: { width: 44, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' },
   resultMeta: { minHeight: 28, paddingHorizontal: 18, paddingBottom: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   resultCount: { ...typography.label, fontVariant: ['tabular-nums'] },
   resultHint: typography.overline,
