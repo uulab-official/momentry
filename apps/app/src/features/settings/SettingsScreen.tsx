@@ -109,8 +109,8 @@ export function SettingsScreen() {
         </View>
         <Text style={[styles.section, { color: colors.textMuted }]}>데이터</Text>
         <View style={[styles.group, { borderColor: colors.border }]}>
-          <SettingsRow icon="share-outline" label="백업 내보내기" value={busy === 'export' ? '준비 중' : lastExportedAt ? formatCompactDate(lastExportedAt) : undefined} onPress={busy ? undefined : runExport} />
-          <SettingsRow icon="document-attach-outline" label="백업 가져오기" value={busy === 'import' ? '가져오는 중' : undefined} onPress={busy ? undefined : () => setConfirmImport(true)} />
+          <SettingsRow icon="share-outline" label="백업 내보내기" value={busy === 'export' ? '준비 중' : lastExportedAt ? formatCompactDate(lastExportedAt) : '파일 만들기'} accessory="none" onPress={busy ? undefined : runExport} />
+          <SettingsRow icon="document-attach-outline" label="백업 가져오기" value={busy === 'import' ? '가져오는 중' : '파일 선택'} accessory="none" onPress={busy ? undefined : () => setConfirmImport(true)} />
           <SettingsRow icon="trash-outline" label="최근 삭제" value={deletedCount > 0 ? `${deletedCount}개` : '비어 있음'} onPress={() => router.push('/settings/trash')} />
         </View>
         <View style={[styles.dataNote, { borderTopColor: colors.border }]}>

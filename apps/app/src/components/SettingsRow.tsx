@@ -6,14 +6,24 @@ import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
 import { typography } from '@/src/theme/tokens';
 
-export function SettingsRow({ icon, label, value, onPress }: { icon: keyof typeof Ionicons.glyphMap; label: string; value?: string; onPress?: () => void }) {
+type SettingsRowAccessory = 'chevron' | 'none';
+
+type SettingsRowProps = {
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  value?: string;
+  onPress?: () => void;
+  accessory?: SettingsRowAccessory;
+};
+
+export function SettingsRow({ icon, label, value, onPress, accessory = onPress ? 'chevron' : 'none' }: SettingsRowProps) {
   const { colors } = useAppTheme();
   const content = (
     <>
       <View style={styles.icon}><Ionicons name={icon} size={21} color={colors.primary} /></View>
       <Text numberOfLines={1} style={[styles.label, { color: colors.text }]}>{label}</Text>
       {value ? <Text numberOfLines={1} style={[styles.value, { color: colors.textMuted }]}>{value}</Text> : null}
-      {onPress ? <Ionicons name="chevron-forward" size={18} color={colors.textMuted} /> : null}
+      {accessory === 'chevron' ? <Ionicons name="chevron-forward" size={18} color={colors.textMuted} /> : null}
     </>
   );
 
