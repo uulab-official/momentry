@@ -6,7 +6,7 @@ import { AnimatedPressable } from '@/src/components/AnimatedPressable';
 import { useAppTheme } from '@/src/providers/ThemeProvider';
 import { typography } from '@/src/theme/tokens';
 
-type SettingsRowAccessory = 'chevron' | 'none';
+type SettingsRowAccessory = 'chevron' | 'external' | 'none';
 
 type SettingsRowProps = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -14,9 +14,10 @@ type SettingsRowProps = {
   value?: string;
   onPress?: () => void;
   accessory?: SettingsRowAccessory;
+  accessibilityHint?: string;
 };
 
-export function SettingsRow({ icon, label, value, onPress, accessory = onPress ? 'chevron' : 'none' }: SettingsRowProps) {
+export function SettingsRow({ icon, label, value, onPress, accessory = onPress ? 'chevron' : 'none', accessibilityHint }: SettingsRowProps) {
   const { colors } = useAppTheme();
   const content = (
     <>
@@ -24,6 +25,7 @@ export function SettingsRow({ icon, label, value, onPress, accessory = onPress ?
       <Text numberOfLines={1} style={[styles.label, { color: colors.text }]}>{label}</Text>
       {value ? <Text numberOfLines={1} style={[styles.value, { color: colors.textMuted }]}>{value}</Text> : null}
       {accessory === 'chevron' ? <Ionicons name="chevron-forward" size={18} color={colors.textMuted} /> : null}
+      {accessory === 'external' ? <Ionicons name="open-outline" size={17} color={colors.textMuted} /> : null}
     </>
   );
 
@@ -43,6 +45,7 @@ export function SettingsRow({ icon, label, value, onPress, accessory = onPress ?
     <AnimatedPressable
       accessibilityRole="button"
       accessibilityLabel={value ? `${label}, ${value}` : label}
+      accessibilityHint={accessibilityHint}
       onPress={() => {
         Haptics.selectionAsync().catch(() => undefined);
         onPress();
