@@ -105,6 +105,16 @@
 - 즉시 출시 전 남은 검증: **실기기 회귀 QA + 자동화 테스트 보강**
 - 범위 밖 또는 외부 운영 차단: **원격 Expo Push, 암호화/클라우드 백업, 선택적 병합, TMDB 운영 결정**
 
+### 2026-08-01 설정 행동 위계
+
+- [x] 하위 화면 이동 행만 우측 꺾쇠 사용
+- [x] 백업 내보내기·가져오기 행을 행동 문구와 상태 값으로 구분
+- [x] 외부 문의 페이지를 외부 링크 표식과 접근성 힌트로 구분
+- [x] 390×844 및 320×700 설정·전체, 320px 백업 확인 대화상자 회귀
+- [x] OTA용 Expo Doctor 19/19, native baseline guard, release audit
+- [x] production OTA 그룹 `3b6caa71-d1e0-4fcb-b274-a2df04e2aa75` 서버 재조회
+- [ ] 설치된 App Store/Play 바이너리에서 OTA 적용 canary
+
 ### 2026-07-29 스토어 상태
 
 - Apple App Store: `1.0.0 / READY_FOR_SALE / build 26072302` — 현재 공개 상태, 진행 중 심사 없음

@@ -212,6 +212,16 @@
 - [x] 서버 재조회에서 runtime `1.0.0`, commit `126da48`, rollback 아님 확인
 - [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary
 
+### 2026-08-01 설정 행동 표식 OTA
+
+- [x] 백업 액션과 내부 이동의 우측 표식을 구분
+- [x] 외부 문의 링크에 외부 링크 표식과 접근성 힌트 적용
+- [x] 390×844·320×700 회귀 및 백업 확인 대화상자 상호작용 확인
+- [x] OTA용 Expo Doctor 19/19, native baseline guard 3개 파일, release audit 통과
+- [x] production 그룹 `3b6caa71-d1e0-4fcb-b274-a2df04e2aa75`에 runtime `1.0.0` iOS·Android 게시
+- [x] 서버 재조회에서 commit `5552858`, branch `production`, rollback 아님 확인
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary
+
 관련 문서:
 
 - [`product-intent.md`](product-intent.md)

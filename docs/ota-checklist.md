@@ -220,3 +220,15 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - production OTA: `ca07c560-7228-44e8-8fb5-bd6d4fe1e980` — iOS `019fb1f6-0b0a-7456-bfee-89fd509a88da`, Android `019fb1f6-0b0a-7dcd-b28f-38fb5120628f`, runtime `1.0.0`, commit `126da48`
 - 서버 재조회: iOS·Android 모두 rollback 아님, branch `production`, commit hash 일치
 - canary: 부팅된 iOS 시뮬레이터 2대와 연결 Android 에뮬레이터에 `kr.co.uulab.momentry` 설치본이 없어 후속 실기기 QA로 유지
+
+## 2026-08-01 설정 행동 표식 디자인 고도화
+
+- 변경 분류: `ota` — 공용 설정 행과 설정·전체 화면의 TypeScript·문서만 변경
+- 설정: 하위 화면 이동에만 우측 꺾쇠를 유지하고, 백업 내보내기·가져오기는 `파일 만들기`·`파일 선택` 행동 문구로 구분
+- 전체: 외부 브라우저를 여는 `문의하기`를 내부 이동 꺾쇠 대신 외부 링크 표식과 접근성 힌트로 구분
+- 회귀: 390×844 및 320×700 설정·전체 확인, 320px 가로 overflow 없음, 백업 가져오기 확인 대화상자 열기·취소 경로 확인
+- 검증: TypeScript, ESLint, OTA용 Expo Doctor 19/19, native baseline guard 3개 파일, release audit 통과
+- 일반 Expo Doctor: SDK 57 패치 권장 버전 12건으로 19/20. 현재 스토어 바이너리 기준선과 분리해 다음 바이너리에서 검증
+- production OTA: `3b6caa71-d1e0-4fcb-b274-a2df04e2aa75` — iOS `019fbd96-0a6e-73a6-8a1f-f266dd868024`, Android `019fbd96-0a6e-735c-a3d2-60a4a425ed2c`, runtime `1.0.0`, commit `5552858`
+- 서버 재조회: iOS·Android 모두 branch `production`, rollback 아님, commit hash 일치
+- canary: 부팅된 iOS 시뮬레이터 3대와 연결 Android 기기에 `kr.co.uulab.momentry` 설치본이 없어 후속 실기기 QA로 유지
