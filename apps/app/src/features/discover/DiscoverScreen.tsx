@@ -12,6 +12,8 @@ import { useAppTheme } from '@/src/providers/ThemeProvider';
 import { typography } from '@/src/theme/tokens';
 import { EntryKind, ENTRY_LABEL } from '@/src/types/entry';
 
+import { normalizeCreators } from './normalizeCreators';
+
 type SearchResult = { id: string; title: string; creator?: string; year?: string; imageUri?: string };
 
 const SEARCH_TIMEOUT_MS = 12_000;
@@ -37,7 +39,7 @@ async function searchBooks(query: string): Promise<SearchResult[]> {
   const data = await fetchSearchJson(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=12&fields=key,title,author_name,first_publish_year,cover_i`, '책');
   return (data.docs ?? [])
     .filter((item: any) => typeof item.key === 'string' && typeof item.title === 'string' && item.title.trim())
-    .map((item: any) => ({ id: item.key, title: item.title.trim(), creator: item.author_name?.slice(0, 2).join(', '), year: String(item.first_publish_year ?? ''), imageUri: item.cover_i ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg` : undefined }));
+    .map((item: any) => ({ id: item.key, title: item.title.trim(), creator: normalizeCreators(item.author_name), year: String(item.first_publish_year ?? ''), imageUri: item.cover_i ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg` : undefined }));
 }
 
 async function searchMovies(query: string): Promise<SearchResult[]> {
