@@ -228,3 +228,13 @@
 - [`completeness-checklist.md`](completeness-checklist.md)
 - [`ota-checklist.md`](ota-checklist.md)
 - [QA report](../.gstack/qa-reports/qa-report-localhost-2026-07-26.md)
+
+### 2026-08-01 책 검색·표지 OTA
+
+- [x] 중복 저자 표기 제거와 영화·책 포스터 세로 비율 유지
+- [x] 390×844·320×700 검색→선택→작성→저장→상세·목록 회귀
+- [x] 저자 정규화 테스트 3건, OTA용 Expo Doctor 19/19, native baseline guard 5개 파일, release audit 통과
+- [x] production 최신 그룹 `05c93e6e-efed-4245-bf60-439e121285f8`에 runtime `1.0.0` iOS·Android 게시
+- [x] 서버 재조회에서 commit `efcab4b`, branch `production`, rollback 아님 확인
+- [x] 선행 중복 그룹 `2beca424-0af5-4445-bca4-5e26be299c10`도 동일 commit/runtime이며 기능 차이 없음 확인
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary

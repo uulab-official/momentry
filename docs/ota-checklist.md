@@ -232,3 +232,15 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - production OTA: `3b6caa71-d1e0-4fcb-b274-a2df04e2aa75` — iOS `019fbd96-0a6e-73a6-8a1f-f266dd868024`, Android `019fbd96-0a6e-735c-a3d2-60a4a425ed2c`, runtime `1.0.0`, commit `5552858`
 - 서버 재조회: iOS·Android 모두 branch `production`, rollback 아님, commit hash 일치
 - canary: 부팅된 iOS 시뮬레이터 3대와 연결 Android 기기에 `kr.co.uulab.momentry` 설치본이 없어 후속 실기기 QA로 유지
+
+## 2026-08-01 책 검색·표지 디자인 고도화
+
+- 변경 분류: `ota` — 검색 결과 정규화와 작성·상세의 TypeScript 레이아웃만 변경, 네이티브 설정·의존성·runtime 변경 없음
+- 검색: Open Library가 같은 저자를 반복해 반환해도 순서를 유지한 고유 저자명만 최대 2명 표시
+- 작성·상세: 영화·책 포스터는 세로 비율과 전체 이미지를 유지하고, 일기 사진은 기존 가로 프레임을 유지
+- 회귀: 390×844 및 320×700 책 검색→선택→작성→저장→상세, 책 목록과 일기 사진 프레임 확인. 모든 렌더링 버튼 44px 이상, font weight 400/500 확인
+- 검증: 저자 정규화 단위 테스트 3건, TypeScript, ESLint, OTA용 Expo Doctor 19/19, native baseline guard 5개 파일, release audit 통과
+- 일반 Expo Doctor: SDK 57 패치 권장 버전 12건으로 19/20. 현재 스토어 바이너리 기준선과 분리해 다음 바이너리에서 검증
+- production 최신 OTA: `05c93e6e-efed-4245-bf60-439e121285f8` — iOS `019fbdad-fe24-75ea-97c7-aaaa0db8bfcd`, Android `019fbdad-fe24-7332-bb3d-690fb605615d`, runtime `1.0.0`, commit `efcab4b`
+- 게시 프로세스 종료 감지 경합으로 동일 소스의 선행 그룹 `2beca424-0af5-4445-bca4-5e26be299c10`도 생성됨. 두 그룹 모두 같은 commit/runtime의 rollback 아닌 업데이트이며 최신 그룹을 production 기준으로 사용
+- canary: 부팅된 iOS 시뮬레이터 3대에 앱 설치본이 없고 연결 Android 기기도 없어 설치 바이너리 재실행 확인은 후속 실기기 QA로 유지
