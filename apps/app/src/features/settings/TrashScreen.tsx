@@ -26,10 +26,12 @@ export function TrashScreen() {
   const [loading, setLoading] = useState(true);
   const [restoringId, setRestoringId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setStatus(null);
     try {
       setEntries(await listDeletedEntries());
     } catch {
@@ -44,11 +46,14 @@ export function TrashScreen() {
   const restore = async (id: number) => {
     if (restoringId !== null) return;
     setRestoringId(id);
+    setStatus(null);
     Haptics.selectionAsync().catch(() => undefined);
     try {
       await restoreEntry(id);
       setEntries((current) => current.filter((entry) => entry.id !== id));
       await refresh();
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
+      setStatus('기록을 복원했어요. 해당 기록 목록에서 다시 확인할 수 있어요.');
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : '기록을 복원하지 못했어요.');
     } finally {
@@ -59,6 +64,7 @@ export function TrashScreen() {
   return <View style={[styles.root, { backgroundColor: colors.background }]}>
     <AppBar title="최근 삭제" back />
     <View style={[styles.notice, { borderColor: colors.border }]}><Text style={[styles.noticeLabel, { color: colors.primary }]}>30일 보관</Text><Text style={[styles.noticeText, { color: colors.textMuted }]}>삭제한 기록은 이 기간 안에 복원할 수 있어요.</Text></View>
+    {status ? <View accessibilityLiveRegion="polite" style={[styles.status, { backgroundColor: colors.primarySoft, borderColor: colors.primary }]}><Ionicons name="checkmark-circle" size={20} color={colors.primary} /><Text style={[styles.statusText, { color: colors.text }]}>{status}</Text><AnimatedPressable accessibilityRole="button" accessibilityLabel="복원 완료 메시지 닫기" onPress={() => setStatus(null)} style={styles.statusClose} pressedOpacity={0.6} scaleTo={0.9}><Ionicons name="close" size={18} color={colors.textMuted} /></AnimatedPressable></View> : null}
     {loading && entries.length === 0 ? <TrashListSkeleton /> : error && entries.length === 0 ? <View style={styles.center}><Text style={{ color: colors.textMuted }}>{error}</Text><AnimatedPressable accessibilityRole="button" onPress={() => void load()} style={[styles.retry, { backgroundColor: colors.primary }]} pressedOpacity={0.84} scaleTo={0.98}><Text style={styles.retryText}>다시 시도</Text></AnimatedPressable></View> : <FlatList
       data={entries}
       keyExtractor={(item) => String(item.id)}
@@ -99,7 +105,7 @@ function TrashListSkeleton() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1 }, notice: { marginHorizontal: 18, paddingVertical: 16, borderBottomWidth: StyleSheet.hairlineWidth, gap: 4 }, noticeLabel: typography.overline, noticeText: typography.caption, list: { paddingHorizontal: 18, paddingBottom: 42 }, emptyList: { flexGrow: 1 }, card: { minHeight: 94, borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 11 }, thumb: { width: 54, height: 68, borderRadius: 6 }, thumbPlaceholder: { alignItems: 'center', justifyContent: 'center' }, cardBody: { flex: 1, minWidth: 0, gap: 3 }, kind: typography.overline, title: typography.itemTitle, date: typography.caption, restore: { minWidth: 58, height: 44, borderWidth: 1, borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }, restoreText: typography.caption, center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 }, retry: { minHeight: 44, paddingHorizontal: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }, retryText: { ...typography.button, color: '#fff' }, empty: { flex: 1, alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 2, paddingBottom: 90, gap: 7 }, emptyEyebrow: typography.overline, emptyTitle: typography.sectionTitle, emptyBody: { ...typography.body, maxWidth: 300 }, error: { ...typography.caption, marginHorizontal: 18, marginBottom: 16 },
+  root: { flex: 1 }, notice: { marginHorizontal: 18, paddingVertical: 16, borderBottomWidth: StyleSheet.hairlineWidth, gap: 4 }, noticeLabel: typography.overline, noticeText: typography.caption, status: { marginHorizontal: 18, marginTop: 14, minHeight: 52, borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, paddingLeft: 13, flexDirection: 'row', alignItems: 'center', gap: 9 }, statusText: { ...typography.caption, flex: 1, minWidth: 0 }, statusClose: { width: 44, height: 44, flexShrink: 0, alignItems: 'center', justifyContent: 'center' }, list: { paddingHorizontal: 18, paddingBottom: 42 }, emptyList: { flexGrow: 1 }, card: { minHeight: 94, borderBottomWidth: StyleSheet.hairlineWidth, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 11 }, thumb: { width: 54, height: 68, borderRadius: 6 }, thumbPlaceholder: { alignItems: 'center', justifyContent: 'center' }, cardBody: { flex: 1, minWidth: 0, gap: 3 }, kind: typography.overline, title: typography.itemTitle, date: typography.caption, restore: { minWidth: 58, height: 44, borderWidth: 1, borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }, restoreText: typography.caption, center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 }, retry: { minHeight: 44, paddingHorizontal: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }, retryText: { ...typography.button, color: '#fff' }, empty: { flex: 1, alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 2, paddingBottom: 90, gap: 7 }, emptyEyebrow: typography.overline, emptyTitle: typography.sectionTitle, emptyBody: { ...typography.body, maxWidth: 300 }, error: { ...typography.caption, marginHorizontal: 18, marginBottom: 16 },
   skeletonList: { paddingHorizontal: 18 },
   skeletonBody: { flex: 1, gap: 7 },
   skeletonMeta: { width: '78%', height: 11, borderRadius: 6 },
