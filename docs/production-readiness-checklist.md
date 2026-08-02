@@ -248,3 +248,13 @@
 - [x] production 그룹 `dacb41a7-6755-4e17-a215-c7562d96881d`에 runtime `1.0.0` iOS·Android 게시
 - [x] 서버 재조회에서 commit `7b8e6e4`, branch `production`, rollback 아님 확인
 - [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary
+
+### 2026-08-02 복원 확인·알림 터치 영역 OTA
+
+- [x] 최근 삭제 복원 성공 안내와 접근 가능한 닫기 액션 적용
+- [x] 리마인더 스위치와 시·분 입력을 UULab 44pt 이상 터치 기준으로 조정
+- [x] 390×844 및 320px 핵심·설정·지원 화면 회귀, 가로 overflow 없음
+- [x] OTA용 Expo Doctor 19/19, native baseline guard 2개 파일, release audit 통과
+- [x] production 그룹 `00ea8dc1-5248-46e5-a7e2-47a8dfca2542`에 runtime `1.0.0` iOS·Android 게시
+- [x] 서버 재조회에서 commit `e72b0df`, branch `production`, rollback 아님 확인
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 OTA 적용 canary — 부팅된 iOS 시뮬레이터 3대에 앱 설치본이 없고 연결 Android 기기 없음

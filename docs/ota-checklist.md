@@ -256,3 +256,15 @@ npm run update:msg -- "사용자에게 보이는 변경 요약"
 - production OTA: `dacb41a7-6755-4e17-a215-c7562d96881d` — iOS `019fbddb-3801-772c-bdd9-426f4be3ca36`, Android `019fbddb-3801-7584-b8da-68224a8beb83`, runtime `1.0.0`, commit `7b8e6e4`
 - 서버 재조회: iOS·Android 모두 branch `production`, rollback 아님, commit hash 일치
 - canary: 부팅된 iOS 시뮬레이터 3대에 앱 설치본이 없고 연결 Android 기기도 없어 설치 바이너리 재실행 확인은 후속 실기기 QA로 유지
+
+## 2026-08-02 복원 확인·알림 터치 영역 디자인 고도화
+
+- 변경 분류: `ota` — 최근 삭제와 알림 화면의 TypeScript 레이아웃·상태 피드백만 변경, 네이티브 설정·의존성·runtime 변경 없음
+- 최근 삭제: 복원 직후 성공 안내와 닫기 액션을 제공해 빈 목록으로 바뀌어도 기록이 복원됐음을 분명히 확인
+- 알림: 리마인더 스위치 터치 영역을 52×44px, 시·분 입력을 각각 44×44px로 표준화
+- 회귀: 390×844 및 320px 설정·최근 삭제·작성·상세·백업·날짜 선택·알림·지원 화면 확인, 가로 overflow와 44px 미만 주요 액션 없음
+- 검증: TypeScript, ESLint, OTA용 Expo Doctor 19/19, native baseline guard 2개 파일, release audit 통과
+- 일반 Expo Doctor: SDK 57 패치 권장 버전 12건으로 19/20. 현재 스토어 바이너리 기준선과 분리해 다음 바이너리에서 검증
+- production OTA: `00ea8dc1-5248-46e5-a7e2-47a8dfca2542` — iOS `019fbfcb-0e38-7ef6-a6ed-6ba5c929dd25`, Android `019fbfcb-0e38-75e2-a573-39b31b21b257`, runtime `1.0.0`, commit `e72b0df`
+- 서버 재조회: iOS·Android 모두 branch `production`, rollback 아님, commit hash 일치
+- canary: 부팅된 iOS 시뮬레이터 3대에 앱 설치본이 없고 연결 Android 기기도 없어 설치 바이너리 재실행 확인은 후속 실기기 QA로 유지

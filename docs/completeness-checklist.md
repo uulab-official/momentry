@@ -228,3 +228,12 @@
 - [x] OTA용 Expo Doctor 19/19, native baseline guard 2개 파일, release audit
 - [x] production runtime `1.0.0`, commit `7b8e6e4`, iOS·Android OTA 서버 재조회
 - [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 최신 OTA canary
+
+### 2026-08-02 복원 확인·알림 접근성 완성도
+
+- [x] 최근 삭제 복원 직후 성공 상태와 44px 닫기 액션 제공
+- [x] 알림 스위치 52×44px, 시·분 입력 각각 44×44px 터치 영역 확보
+- [x] 390×844 및 320px 핵심·설정·지원 화면 가로 overflow와 주요 터치 영역 회귀
+- [x] TypeScript·ESLint·OTA용 Expo Doctor 19/19, native baseline guard 2개 파일, release audit
+- [x] production runtime `1.0.0`, commit `e72b0df`, iOS·Android OTA 서버 재조회
+- [ ] 설치된 스토어 바이너리에서 강제 종료→재실행 후 최신 OTA canary
