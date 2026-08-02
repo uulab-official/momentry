@@ -185,7 +185,7 @@ export function NotificationsScreen() {
           {!allowed ? <AnimatedPressable accessibilityRole="button" onPress={() => Linking.openSettings().catch(() => undefined)} style={styles.settingsButton} pressedOpacity={0.68} scaleTo={0.98}><Text style={[styles.settingsText, { color: colors.primary }]}>기기 설정 열기</Text></AnimatedPressable> : null}
         </View>
         <View style={[styles.section, { borderColor: colors.border }]}>
-          <View style={styles.reminderHeader}><View style={styles.reminderTitleWrap}><Text style={[styles.title, { color: colors.text }]}>매일 기록 알림</Text><Text style={[styles.body, { color: colors.textMuted }]}>원하는 시간에 기기에만 알림을 예약해요.</Text></View><Switch accessibilityLabel="매일 기록 알림" accessibilityState={{ checked: reminderEnabled, disabled: busy }} value={reminderEnabled} onValueChange={toggleReminder} disabled={busy} trackColor={{ false: colors.border, true: colors.primarySoft }} thumbColor={reminderEnabled ? colors.primary : colors.textMuted} /></View>
+          <View style={styles.reminderHeader}><View style={styles.reminderTitleWrap}><Text style={[styles.title, { color: colors.text }]}>매일 기록 알림</Text><Text style={[styles.body, { color: colors.textMuted }]}>원하는 시간에 기기에만 알림을 예약해요.</Text></View><AnimatedPressable accessibilityRole="switch" accessibilityLabel="매일 기록 알림" accessibilityState={{ checked: reminderEnabled, disabled: busy }} disabled={busy} onPress={() => void toggleReminder(!reminderEnabled)} style={styles.switchTarget} pressedOpacity={0.74} scaleTo={0.94}>{Platform.OS === 'web' ? <View style={[styles.switchTrack, { backgroundColor: reminderEnabled ? colors.primarySoft : colors.border, justifyContent: reminderEnabled ? 'flex-end' : 'flex-start' }]}><View style={[styles.switchThumb, { backgroundColor: reminderEnabled ? colors.primary : colors.textMuted }]} /></View> : <Switch accessible={false} pointerEvents="none" value={reminderEnabled} disabled={busy} trackColor={{ false: colors.border, true: colors.primarySoft }} thumbColor={reminderEnabled ? colors.primary : colors.textMuted} />}</AnimatedPressable></View>
           <View style={[styles.timeRow, { borderColor: colors.border }]}>
             <Text style={[styles.timeLabel, { color: colors.textMuted }]}>알림 시간</Text>
             <View style={[styles.timeInput, { backgroundColor: colors.background, borderColor: colors.border }]}>
@@ -219,10 +219,13 @@ const styles = StyleSheet.create({
   settingsText: typography.label,
   reminderHeader: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   reminderTitleWrap: { flex: 1, gap: 4 },
+  switchTarget: { width: 52, height: 44, alignItems: 'center', justifyContent: 'center' },
+  switchTrack: { width: 40, height: 24, borderRadius: 12, paddingHorizontal: 3, flexDirection: 'row', alignItems: 'center' },
+  switchThumb: { width: 18, height: 18, borderRadius: 9 },
   timeRow: { minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 18, borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth },
   timeLabel: { ...typography.label, flex: 1 },
   timeInput: { height: 44, borderBottomWidth: 1.5, paddingHorizontal: 4, flexDirection: 'row', alignItems: 'center' },
-  timeText: { ...pretendard(400), width: 30, textAlign: 'center', fontSize: 17, fontVariant: ['tabular-nums'] },
+  timeText: { ...pretendard(400), width: 44, height: 44, paddingVertical: 0, textAlign: 'center', fontSize: 17, fontVariant: ['tabular-nums'] },
   colon: { ...pretendard(600), fontSize: 17 },
   timeHint: { ...typography.caption, marginTop: 10 },
   saveButton: { minHeight: 46, borderRadius: 10, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center', marginTop: 14 },
