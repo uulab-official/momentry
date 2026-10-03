@@ -91,6 +91,7 @@ export async function replaceEntries(entries: Entry[], deletedEntries: DeletedEn
   const db = await database();
   const existingEntries = await listEntries();
   const existingDeletedEntries = await db.getAllAsync<DeletedEntry>('SELECT * FROM deleted_entries');
+  const existingImageUris = new Set([...existingEntries, ...existingDeletedEntries].map((entry) => entry.imageUri));
   const persistedEntries: Entry[] = [];
   const persistedDeletedEntries: DeletedEntry[] = [];
   try {
@@ -144,7 +145,10 @@ export async function replaceEntries(entries: Entry[], deletedEntries: DeletedEn
       }
     });
   } catch (error) {
-    await Promise.all([...persistedEntries, ...persistedDeletedEntries].map((entry) => deleteStoredImage(entry.imageUri)));
+    const preparedImageUris = new Set([...persistedEntries, ...persistedDeletedEntries].map((entry) => entry.imageUri));
+    await Promise.all([...preparedImageUris]
+      .filter((uri) => !existingImageUris.has(uri))
+      .map((uri) => deleteStoredImage(uri).catch(() => undefined)));
     throw error;
   }
   const nextImageUris = new Set([...persistedEntries, ...persistedDeletedEntries].map((entry) => entry.imageUri));
@@ -285,3 +289,4 @@ export async function restoreEntry(id: number) {
     await transaction.runAsync('DELETE FROM deleted_entries WHERE id = ?', id);
   });
 }
+

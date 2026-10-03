@@ -50,13 +50,14 @@
     "doctor": "npx expo-doctor@latest",
     "doctor:ota": "EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 npx expo-doctor@latest",
     "install:ota-baseline": "node scripts/install-ota-baseline.js",
-    "verify:ota": "npm run typecheck && npm run lint && npm run doctor:ota",
+    "test:backup-recovery": "node --test tests/backup-image-cleanup.test.mjs",
+    "verify:ota": "npm run test:backup-recovery && npm run typecheck && npm run lint && npm run doctor:ota",
     "supabase:check": "node scripts/supabase-config-check.js",
     "social-auth:check": "node scripts/social-auth-config-check.js",
     "push:check": "node scripts/expo-push-config-check.js .",
     "push:check:remote": "node scripts/expo-push-config-check.js . --require-remote",
     "supabase:seed:admin": "node scripts/seed-supabase-admin.js",
-    "verify": "npm run typecheck && npm run lint && npm run doctor",
+    "verify": "npm run test:backup-recovery && npm run typecheck && npm run lint && npm run doctor",
     "preflight": "npm run supabase:check && npm run social-auth:check && npm run push:check && npm run verify && npx expo install --check && npx expo config --type public > /tmp/momentry-expo-config.txt",
     "preflight:test": "EXPO_PUBLIC_ADS_MODE=test EXPO_PUBLIC_ADMOB_FORCE_TEST_IDS=1 npm run preflight",
     "preflight:production": "EXPO_PUBLIC_ADS_MODE=production EXPO_PUBLIC_ADMOB_FORCE_TEST_IDS=0 npm run preflight",
@@ -106,3 +107,4 @@
   },
   "private": true
 }
+
