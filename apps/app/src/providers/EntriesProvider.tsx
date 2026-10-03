@@ -68,7 +68,8 @@ export function EntriesProvider({ children }: PropsWithChildren) {
       movie: current.movie.filter((entry) => entry.id !== id),
       book: current.book.filter((entry) => entry.id !== id),
     }));
-  }, []);
+    await refresh();
+  }, [refresh]);
 
   const value = useMemo<EntriesContextValue>(() => ({
     entriesFor,
