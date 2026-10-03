@@ -35,3 +35,11 @@ Focused source tests cover shared update/resource guards and the actual React ro
 Run the original `npm run verify` separately from these focused checks. A blocked aggregate check is not a full application/native pass. Native project/binary provenance, deployed OTA compatibility, simulator/device behavior and native splash appearance require separate verified installed-build testing; they are not established by source tests.
 
 Official SDK 57 references: [Updates](https://docs.expo.dev/versions/v57.0.0/sdk/updates/), [Font](https://docs.expo.dev/versions/v57.0.0/sdk/font/), [SplashScreen](https://docs.expo.dev/versions/v57.0.0/sdk/splash-screen/). Implementation declarations were checked against the current repository lock, including Expo57.0.8, Updates57.0.10, Font57.0.1, Splash57.0.5 and Constants57.0.7, rather than upgrading to newer documentation recommendations.
+
+## Native/manual completion boundary
+
+The startup controller now observes native busy state after check, download, and every candidate-ledger boundary within the original app budget. iOS can resolve a successful Expo promise before its idle state event; that lag must neither start duplicate work nor discard the successful check. Native-cache selections adopted during a manual operation retain exact pending-candidate provenance through reload. Background, app entry, unmount, errors and the original absolute deadline permanently close activation. Existing native policy, auth/font readiness, splash visuals and application mode are unchanged. This is source-contract validation; release-device/native-runtime acceptance and OTA publication remain pending.
+
+The default clock also calls browser host timers globally, and injected clocks retain their own method receiver. This preserves the newer Promise timer fix while adding the ownership barrier.
+
+The outer readiness/font/native-handoff clocks also invoke browser timers globally. Injected stateful clocks keep their own receiver; budget, auth/font readiness and cancellation behavior are unchanged.

@@ -20,7 +20,10 @@ type Services = {
 export function createMomentryStartup(adapter: StartupAdapter, services: Services, options: StartupOptions & { otaMs: number; fontMs: number; finishMs: number }) {
   if ([options.deadlineMs, options.otaMs, options.fontMs].some(value => !Number.isFinite(value) || value <= 0) ||
       !Number.isFinite(options.finishMs) || options.finishMs < 0 || options.otaMs > options.deadlineMs) throw Error('Momentry startup budgets must be finite and nested.');
-  const clock = options.clock ?? { now: () => performance.now(), setTimeout, clearTimeout };
+  const clock = options.clock ?? { now: () => performance.now(),
+    setTimeout: (callback: () => void, ms: number) => setTimeout(callback, ms),
+    clearTimeout: (timer: ReturnType<typeof setTimeout>) => clearTimeout(timer),
+  };
   const fonts = createEssentialFontLoader(services.loadFonts);
   let gate: ReturnType<typeof createStartupGate> | undefined;
   let sealed = false, entered = false, began = false, expiresAt = Infinity;

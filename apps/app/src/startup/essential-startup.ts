@@ -17,7 +17,10 @@ export function createEssentialFontLoader(load: () => Promise<void>) {
 }
 export function createEssentialStartupGate(fonts: ReturnType<typeof createEssentialFontLoader>, options: { deadlineMs: number; clock?: Clock }) {
   if (!Number.isFinite(options.deadlineMs) || options.deadlineMs <= 0) throw Error('Resources require a finite positive deadline.');
-  const clock = options.clock ?? { now: () => performance.now(), setTimeout, clearTimeout };
+  const clock = options.clock ?? { now: () => performance.now(),
+    setTimeout: (callback: () => void, ms: number) => setTimeout(callback, ms),
+    clearTimeout: (timer: ReturnType<typeof setTimeout>) => clearTimeout(timer),
+  };
   let snapshot: ResourceSnapshot = { status: 'pending', fontsReady: false, languageReady: false };
   let active = true, started = false;
   let expiresAt = Infinity;
@@ -57,7 +60,10 @@ export function createEssentialStartupGate(fonts: ReturnType<typeof createEssent
 export function createNativeSplashHandoff(hide: () => Promise<void>, options: { retryMs?: number; clock?: Pick<Clock, 'setTimeout' | 'clearTimeout'> } = {}) {
   const retryMs = options.retryMs ?? 180;
   if (!Number.isFinite(retryMs) || retryMs <= 0) throw Error('Handoff retry requires a finite positive delay.');
-  const clock = options.clock ?? { setTimeout, clearTimeout };
+  const clock = options.clock ?? {
+    setTimeout: (callback: () => void, ms: number) => setTimeout(callback, ms),
+    clearTimeout: (timer: ReturnType<typeof setTimeout>) => clearTimeout(timer),
+  };
   let hidden = false, hiding = false, active = true, readableFrame = false, attempts = 0;
   let retryTimer: ReturnType<typeof setTimeout> | undefined;
   function cancelRetry() { if (retryTimer !== undefined) clock.clearTimeout(retryTimer); retryTimer = undefined; }
